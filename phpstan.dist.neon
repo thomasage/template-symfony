@@ -1,0 +1,19 @@
+parameters:
+  level: max
+  paths:
+    - bin/
+    - config/
+    - public/
+    - src/
+    - tests/
+  excludePaths:
+    - config/bundles.php
+    - config/preload.php
+    - config/secrets
+  ergebnis:
+    noExtends:
+      classesAllowedToBeExtended:
+        - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+        - Symfony\Bundle\FrameworkBundle\Test\WebTestCase
+        - Symfony\Component\Console\Command\Command
+        - Symfony\Component\HttpKernel\Kernel

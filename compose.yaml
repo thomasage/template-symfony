@@ -1,0 +1,44 @@
+name: acme
+
+services:
+
+  http:
+    image: caddy:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./docker/ssl:/etc/ssl:ro
+      - ./public:/srv:ro
+      - caddy_config:/config
+      - caddy_data:/data
+    depends_on:
+      - php
+
+  php:
+    build: docker/php
+    volumes:
+      - ./:/srv
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+#    command:
+#      - --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: acme
+      MYSQL_USER: acme
+      MYSQL_PASSWORD: acme
+
+volumes:
+
+  caddy_config:
+  caddy_data:
+  mysql_data:
