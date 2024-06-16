@@ -34,6 +34,7 @@
         "phpstan/phpstan-strict-rules": "^1.6",
         "phpstan/phpstan-symfony": "^1.4",
         "phpunit/phpunit": "^11.1",
+        "rector/rector": "^1.1",
         "symfony/browser-kit": "7.1.*",
         "symfony/css-selector": "7.1.*",
         "symfony/debug-bundle": "7.1.*",
@@ -90,13 +91,15 @@
         ],
         "qa:cs": "vendor/bin/php-cs-fixer fix",
         "qa:phpstan": "vendor/bin/phpstan",
-        "qa:phpunit": "bin/phpunit"
+        "qa:phpunit": "bin/phpunit",
+        "qa:rector": "vendor/bin/rector"
     },
     "scripts-descriptions": {
         "qa": "Run all QA tools",
         "qa:cs": "PHP Coding Standards Fixer",
         "qa:phpstan": "Static Analysis Tool",
-        "qa:phpunit": "Tests suite"
+        "qa:phpunit": "Tests suite",
+        "qa:rector": "Instant Upgrades and Automated Refactoring"
     },
     "conflict": {
         "symfony/symfony": "*"
