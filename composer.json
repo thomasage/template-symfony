@@ -85,6 +85,7 @@
             "@auto-scripts"
         ],
         "qa": [
+            "@qa:rector",
             "@qa:cs",
             "@qa:phpstan",
             "@qa:phpunit"
