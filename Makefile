@@ -37,14 +37,19 @@ vendor: composer.lock
 ##
 
 # Run a console command
+# Example: `make composer run="outdated -D"`
+composer:
+	@docker compose exec php composer $(run)
+
+# Run a console command
 # Example: `make console run="cache:clear"`
 console:
 	@docker compose exec php bin/console $(run)
 
-# Run a console command
-# Example: `make composer run="outdated -D"`
-composer:
-	@docker compose exec php composer $(run)
+# Run a PHP script
+# Example: `make php run="vendor/bin/phpunit"`
+php:
+	@docker compose exec php php $(run)
 
 # Run all QA tools
 qa:
