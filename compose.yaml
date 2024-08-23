@@ -27,8 +27,6 @@ services:
     image: mysql:8.0
     ports:
       - '3306:3306'
-#    command:
-#      - --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql_data:/var/lib/mysql
     environment:
@@ -36,6 +34,12 @@ services:
       MYSQL_DATABASE: acme
       MYSQL_USER: acme
       MYSQL_PASSWORD: acme
+
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
 
 volumes:
 
