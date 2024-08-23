@@ -20,7 +20,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: mbstring, :opcache
+          extensions: mbstring, pcov
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
