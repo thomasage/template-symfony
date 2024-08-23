@@ -16,6 +16,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Copy .env.test.local
         run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, :opcache
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
