@@ -13,7 +13,13 @@ parameters:
   ergebnis:
     noExtends:
       classesAllowedToBeExtended:
+        - Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+        - Doctrine\Bundle\FixturesBundle\Fixture
         - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+        - Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
         - Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         - Symfony\Component\Console\Command\Command
         - Symfony\Component\HttpKernel\Kernel
+        - Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory
+    noNullableReturnTypeDeclaration:
+      enabled: false
