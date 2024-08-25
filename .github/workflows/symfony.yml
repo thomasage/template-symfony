@@ -38,16 +38,10 @@ jobs:
           extensions: intl, mbstring, pcov, pdo, pdo_mysql
       - name: Check PHP Version
         run: php -v
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v3
+      - name: Install dependencies
+        uses: php-actions/composer@v6
         with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          args: -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Static analysis
         run: vendor/bin/phpstan
       - name: Tests suite
