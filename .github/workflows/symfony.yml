@@ -27,7 +27,7 @@ jobs:
       - name: Composer install
         uses: php-actions/composer@v6
         with:
-          php_version: 8.3
+          quiet: yes
   phpunit:
     runs-on: ubuntu-latest
     needs:
