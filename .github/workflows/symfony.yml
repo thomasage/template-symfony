@@ -47,4 +47,4 @@ jobs:
       - name: Tests suite
         run: |
           cp .env.ci .env
-          bin/phpunit
+          vendor/bin/phpunit
