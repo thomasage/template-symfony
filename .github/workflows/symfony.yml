@@ -49,7 +49,7 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Static analysis
-        run: vendor/bin/phpstan analyse src
+        run: vendor/bin/phpstan
       - name: Tests suite
         run: |
           cp .env.ci .env
