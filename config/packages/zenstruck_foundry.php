@@ -6,13 +6,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     if ('dev' === $containerConfigurator->env()) {
-        $containerConfigurator->extension('zenstruck_foundry', [
-            'auto_refresh_proxies' => true,
-        ]);
+        $containerConfigurator->extension('zenstruck_foundry', []);
     }
     if ('test' === $containerConfigurator->env()) {
-        $containerConfigurator->extension('zenstruck_foundry', [
-            'auto_refresh_proxies' => true,
-        ]);
+        $containerConfigurator->extension('zenstruck_foundry', []);
     }
 };
