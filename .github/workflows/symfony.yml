@@ -17,7 +17,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: 8.3
           extensions: intl, mbstring, pcov, pdo, pdo_mysql
       - name: Cache Composer dependencies
         uses: actions/cache@v3
@@ -26,8 +26,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
       - name: Composer install
         uses: php-actions/composer@v6
-        with:
-          quiet: yes
   phpunit:
     runs-on: ubuntu-latest
     needs:
