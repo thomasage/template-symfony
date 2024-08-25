@@ -10,8 +10,25 @@ permissions:
   contents: read
 
 jobs:
-  symfony-tests:
+  dependencies:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: intl, mbstring, pcov, pdo, pdo_mysql
+      - name: Check PHP Version
+        run: php -v
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          args: -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+  phpunit:
+    runs-on: ubuntu-latest
+    needs:
+      - dependencies
     services:
       mysql:
         image: mysql:8.0
@@ -28,23 +45,14 @@ jobs:
           --health-timeout=5s
           --health-retries=3
     steps:
-      - uses: actions/checkout@v4
-      - name: Copy .env.test.local
-        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          extensions: intl, mbstring, pcov, pdo, pdo_mysql
-      - name: Check PHP Version
-        run: php -v
-      - name: Install dependencies
-        uses: php-actions/composer@v6
-        with:
-          args: -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Static analysis
-        run: vendor/bin/phpstan
       - name: Tests suite
         run: |
           cp .env.ci .env
           vendor/bin/phpunit
+  phpstan:
+    runs-on: ubuntu-latest
+    needs:
+      - dependencies
+    steps:
+      - name: Static analysis
+        run: vendor/bin/phpstan
