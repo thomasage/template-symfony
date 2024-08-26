@@ -12,7 +12,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
-          extensions: intl, mbstring, pcov, pdo, pdo_mysql, redis
+          extensions: intl, mbstring, pcov, pdo, pdo_mysql, redis, sodium
       - name: Cache Composer dependencies
         uses: actions/cache@v4
         with:
