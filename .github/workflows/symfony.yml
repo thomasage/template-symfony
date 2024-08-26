@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ composer ]
     steps:
+      - run: ls -l
       - name: Tests suite
         uses: php-actions/phpunit@v3
         with:
