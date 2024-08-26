@@ -15,7 +15,10 @@
 </head>
 <body>
 {% if app.user %}
-    <div><a href="{{ path('app_logout') }}">Sign out</a></div>
+    <div>
+        <a href="{{ path('admin') }}">Admin</a>
+        <a href="{{ path('app_logout') }}">Sign out</a>
+    </div>
 {% endif %}
 {% block body %}{% endblock %}
 </body>
