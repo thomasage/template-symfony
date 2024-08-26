@@ -58,7 +58,7 @@ jobs:
           php_version: 8.3
       - name: Tests suite
         run: |
-          - cp .env.ci .env
+          - cp .env.ci .env.test
           - vendor/bin/phpunit
   phpstan:
     runs-on: ubuntu-latest
