@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: apcu,intl,opcache,pdo,pdo_mysql,pcov,redis,zip
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
