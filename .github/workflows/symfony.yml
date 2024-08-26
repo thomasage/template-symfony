@@ -35,7 +35,7 @@ jobs:
           php_extensions: pcov
           php_version: 8.3
       - name: Store coverage data
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage
           path: _coverage
