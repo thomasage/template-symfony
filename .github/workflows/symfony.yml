@@ -27,6 +27,17 @@ jobs:
   phpunit:
     runs-on: ubuntu-latest
     needs: [ composer ]
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: acme_test
+          MYSQL_PASSWORD: acme
+          MYSQL_USER: acme
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
@@ -46,17 +57,27 @@ jobs:
           php_extensions: redis
           php_version: 8.3
       - name: Tests suite
-        uses: php-actions/phpunit@v3
+        run: vendor/bin/phpunit
+  phpstan:
+    runs-on: ubuntu-latest
+    needs: [ composer ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          args: --coverage-text
-          bootstrap: tests/bootstrap.php
-          configuration: phpunit.xml.dist
-          coverage_text: _coverage/coverage.txt
-          php_extensions: pcov
+          coverage: pcov
+          extensions: apcu,intl,opcache,pdo,pdo_mysql,pcov,redis,zip
+          php-version: 8.3
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_extensions: redis
           php_version: 8.3
-          version: 11.3.1
-      - name: Store coverage data
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage
-          path: _coverage
+      - name: Static analysis
+        run: vendor/bin/phpstan
