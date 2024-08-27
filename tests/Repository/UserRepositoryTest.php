@@ -10,6 +10,8 @@ use App\Repository\UserRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
@@ -19,7 +21,7 @@ final class UserRepositoryTest extends KernelTestCase
     use Factories;
     use ResetDatabase;
 
-    public function testShould(): void
+    public function testShouldUpgradePassword(): void
     {
         self::bootKernel();
 
@@ -42,5 +44,24 @@ final class UserRepositoryTest extends KernelTestCase
         $userRepository->upgradePassword($user, $hashedPassword);
 
         self::assertSame($hashedPassword, $user->getPassword());
+    }
+
+    public function testShouldThrowExceptionWhenNotUser(): void
+    {
+        self::bootKernel();
+
+        $user = new class implements PasswordAuthenticatedUserInterface {
+            public function getPassword(): ?string
+            {
+                return '';
+            }
+        };
+
+        $this->expectException(UnsupportedUserException::class);
+
+        $userRepository = self::getContainer()->get(UserRepository::class);
+        assert($userRepository instanceof UserRepository);
+
+        $userRepository->upgradePassword($user, '');
     }
 }
