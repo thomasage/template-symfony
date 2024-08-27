@@ -25,7 +25,7 @@ final readonly class EasyAdminUserSubscriber implements EventSubscriberInterface
     public function onPersistUser(BeforeEntityPersistedEvent $event): void
     {
         $entity = $event->getEntityInstance();
-        if (!($entity instanceof User)) {
+        if (!$entity instanceof User) {
             return;
         }
         $plainPassword = $entity->getPassword();

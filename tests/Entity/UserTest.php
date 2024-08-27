@@ -17,6 +17,7 @@ final class UserTest extends KernelTestCase
         self::bootKernel();
 
         $user = UserFactory::createOne(['email' => 'john@doe.com']);
+        $user->eraseCredentials();
 
         self::assertIsInt($user->getId());
         self::assertSame('john@doe.com', $user->getEmail());
