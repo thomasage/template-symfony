@@ -9,4 +9,5 @@ return static function (RoutingConfigurator $routingConfigurator): void {
         'path' => '../src/Controller/',
         'namespace' => 'App\Controller',
     ], 'attribute');
+    $routingConfigurator->add('app_logout', '/logout')->methods(['GET']);
 };

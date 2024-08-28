@@ -7,6 +7,7 @@ namespace App\Tests\Controller;
 use App\Controller\SecurityController;
 use App\Factory\UserFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -17,7 +18,8 @@ final class SecurityControllerTest extends WebTestCase
     use Factories;
     use ResetDatabase;
 
-    public function testUserCantLoginWithInvalidEmailAddress(): void
+    #[Test]
+    public function userCantLoginWithInvalidEmailAddress(): void
     {
         $client = self::createClient();
         $client->request('GET', '/login');
@@ -28,7 +30,8 @@ final class SecurityControllerTest extends WebTestCase
         self::assertResponseRedirects('/login');
     }
 
-    public function testUserCanLogin(): void
+    #[Test]
+    public function userCanLogin(): void
     {
         $client = self::createClient();
 
