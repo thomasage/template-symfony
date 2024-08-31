@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Acme{% endblock %}</title>
     {% block stylesheets %}
-        <link type="text/css" rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-        <link type="text/css" rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-        <link type="text/css" rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
     {% endblock %}
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
@@ -15,11 +12,10 @@
 </head>
 <body>
 {% if app.user %}
-    <nav>
-        <a href="{{ path('admin') }}">Admin</a>
-        <a href="{{ path('app_logout') }}">Sign out</a>
-    </nav>
+    {% include '_navbar.html.twig' %}
 {% endif %}
-{% block body %}{% endblock %}
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
 </body>
 </html>
