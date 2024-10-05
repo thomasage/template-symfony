@@ -32,6 +32,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'check_path' => 'app_login',
                     'enable_csrf' => true,
                 ],
+                'two_factor' => [
+                    'auth_form_path' => '2fa_login',
+                    'check_path' => '2fa_login_check',
+                ],
                 'logout' => [
                     'path' => 'app_logout',
                 ],
@@ -41,6 +45,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             [
                 'path' => '/login',
                 'roles' => 'PUBLIC_ACCESS',
+            ],
+            [
+                'path' => '/logout',
+                'roles' => 'PUBLIC_ACCESS',
+            ],
+            [
+                'path' => '^/2fa',
+                'role' => 'IS_AUTHENTICATED_2FA_IN_PROGRESS',
             ],
             [
                 'path' => '^/',
