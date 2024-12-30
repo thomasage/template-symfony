@@ -25,10 +25,9 @@ jobs:
             -   name: Set up PHP
                 uses: shivammathur/setup-php@v2
                 with:
+                    coverage: pcov
+                    extensions: apcu, intl, opcache, pdo, pdo_mysql, pcov, redis, zip
                     php-version: 8.3
-                    extensions: mbstring, pdo_mysql, redis
-                    ini-values: post_max_size=256M, max_execution_time=300
-                    tools: composer
             -   name: Cache Composer dependencies
                 uses: actions/cache@v3
                 with:
@@ -37,6 +36,9 @@ jobs:
                     restore-keys: ${{ runner.os }}-composer-
             -   name: Install dependencies
                 uses: php-actions/composer@v6
+                with:
+                    php_extensions: redis
+                    php_version: 8.3
             -   name: Run database migrations
                 run: php artisan migrate --env=testing --force
             -   name: Run PHPUnit
