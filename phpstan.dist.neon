@@ -1,0 +1,31 @@
+parameters:
+    level: max
+    paths:
+        - bin/
+        - config/
+        - public/
+        - src/
+        - tests/
+    excludePaths:
+        - config/bundles.php
+        - config/preload.php
+        - config/secrets
+    scanDirectories:
+        - var/cache/dev/Symfony/Config
+    ergebnis:
+        noExtends:
+            classesAllowedToBeExtended:
+                - Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+                - Doctrine\Bundle\FixturesBundle\Fixture
+                - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+                - Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
+                - Symfony\Bundle\FrameworkBundle\Test\WebTestCase
+                - Symfony\Component\Console\Command\Command
+                - Symfony\Component\Form\AbstractType
+                - Symfony\Component\Form\Test\TypeTestCase
+                - Symfony\Component\HttpKernel\Kernel
+                - Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory
+        noNullableReturnTypeDeclaration:
+            enabled: false
+        noParameterWithNullableTypeDeclaration:
+            enabled: false

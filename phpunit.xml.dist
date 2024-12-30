@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         beStrictAboutOutputDuringTests="true"
+         bootstrap="tests/bootstrap.php"
+         cacheDirectory=".phpunit.result.cache"
+         colors="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         executionOrder="depends,defects"
+         failOnDeprecation="true"
+         failOnEmptyTestSuite="true"
+         failOnIncomplete="true"
+         failOnNotice="true"
+         failOnPhpunitDeprecation="true"
+         failOnRisky="true"
+         failOnSkipped="true"
+         failOnWarning="true"
+         requireCoverageMetadata="true"
+         shortenArraysForExportThreshold="10"
+         stopOnDefect="true"
+         stopOnDeprecation="true"
+         stopOnError="true"
+         stopOnFailure="true"
+         stopOnIncomplete="true"
+         stopOnNotice="true"
+         stopOnRisky="true"
+         stopOnSkipped="true"
+         stopOnWarning="true">
+    <php>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
+        <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
+        <server name="SYMFONY_PHPUNIT_VERSION" value="9.6"/>
+    </php>
+    <testsuites>
+        <testsuite name="Project Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>src</directory>
+        </include>
+        <exclude>
+            <directory>src/DataFixtures</directory>
+            <directory>src/Factory</directory>
+        </exclude>
+    </source>
+    <coverage>
+        <report>
+            <html outputDirectory="coverage"/>
+        </report>
+    </coverage>
+    <extensions>
+        <bootstrap class="Zenstruck\Browser\Test\BrowserExtension"/>
+    </extensions>
+</phpunit>

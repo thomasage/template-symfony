@@ -1,0 +1,44 @@
+{% extends 'admin/user/base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ 'page_title.user_index'|trans(domain: 'admin') }}</h1>
+
+    <div>
+        <a href="{{ path('app_user_add') }}">{{ 'actions.add'|trans }}</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>{{ 'fields.email'|trans }}</th>
+            <th>{{ 'fields.roles'|trans }}</th>
+            <th>{{ 'fields.2fa'|trans }}</th>
+            <th>{{ 'fields.last_login'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>
+                    <a href="{{ path('app_user_edit', {uuid: user.uuid}) }}">
+                        {{ user.email }}
+                    </a>
+                </td>
+                <td>
+                    {% for role in user.roles %}
+                        <div>{{ role }}</div>
+                    {% endfor %}
+                </td>
+                <td>{{ (user.twoFactorsAuthentication ? 'misc.yes' : 'misc.no')|trans }}</td>
+                <td>{{ user.lastLoginAt is not null ? user.lastLoginAt|format_datetime : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">{{ 'misc.no_records'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

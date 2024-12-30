@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}ACME{% endblock %}</title>
+    {% block stylesheets %}
+    {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+<div>
+    {% if app.user %}
+        <div>
+            <div>{{ app.user.userIdentifier }}</div>
+            <a href="{{ path('app_home') }}">{{ 'menu.home'|trans }}</a>
+            <a href="{{ path('app_notification') }}">{{ 'actions.send_notification'|trans }}</a>
+            <a href="{{ path('app_profile') }}">{{ 'menu.profile'|trans }}</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_user_index') }}">{{ 'menu.admin.user'|trans }}</a>
+            {% endif %}
+            <a href="{{ path('app_logout') }}">{{ 'actions.sign_out'|trans }}</a>
+        </div>
+    {% endif %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% block body %}{% endblock %}
+</div>
+</body>
+</html>

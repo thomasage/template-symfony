@@ -1,0 +1,12 @@
+{% extends 'admin/user/base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(formEdit) }}
+    {{ form_widget(formEdit) }}
+    <div>
+        <button type="submit">{{ 'actions.save'|trans }}</button>
+    </div>
+    {{ form_end(formEdit) }}
+
+{% endblock %}

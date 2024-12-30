@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <form method="post">
+
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <div>
+            <label for="username">{{ 'fields.email'|trans }}</label>
+            <input type="email"
+                   name="_username"
+                   value="{{ last_username }}"
+                   id="username"
+                   autocomplete="email"
+                   required
+                   autofocus>
+        </div>
+        <div>
+            <label for="password">{{ 'fields.password'|trans }}</label>
+            <input type="password"
+                   name="_password"
+                   id="password"
+                   autocomplete="current-password"
+                   required>
+        </div>
+        <div>
+            <input type="checkbox" name="_remember_me" id="_remember_me">
+            <label for="_remember_me">{{ 'fields.remember_me'|trans }}</label>
+        </div>
+        <div>
+            <button type="submit">{{ 'actions.sign_in'|trans }}</button>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    </form>
+
+{% endblock %}

@@ -1,0 +1,2 @@
+CREATE DATABASE IF NOT EXISTS acme_test;
+GRANT ALL PRIVILEGES ON acme_test.* TO 'acme'@'%';

@@ -1,0 +1,9 @@
+:443 {
+    root * /srv
+    encode gzip
+    file_server
+    php_fastcgi php:9000 {
+        root /srv/public
+    }
+    tls /etc/ssl/certificate.pem /etc/ssl/certificate-key.pem
+}
