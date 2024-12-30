@@ -13,7 +13,6 @@ final readonly class LoginSuccessSubscriber implements EventSubscriberInterface
 {
     public function __construct(private EntityManagerInterface $entityManager) {}
 
-    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

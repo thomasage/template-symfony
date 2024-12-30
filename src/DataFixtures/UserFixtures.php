@@ -10,7 +10,6 @@ use Doctrine\Persistence\ObjectManager;
 
 final class UserFixtures extends Fixture
 {
-    #[\Override]
     public function load(ObjectManager $manager): void
     {
         UserFactory::createOne([

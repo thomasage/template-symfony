@@ -73,7 +73,6 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
         return $this;
     }
 
-    #[\Override]
     public function getUserIdentifier(): string
     {
         \assert('' !== $this->email);
@@ -84,7 +83,6 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
     /**
      * @return list<string>
      */
-    #[\Override]
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -104,7 +102,6 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
         return $this;
     }
 
-    #[\Override]
     public function getPassword(): string
     {
         return $this->password;
@@ -117,14 +114,12 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
         return $this;
     }
 
-    #[\Override]
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
-    #[\Override]
     public function hasTwoFactorsAuthentication(): bool
     {
         return $this->twoFactorsAuthentication;
@@ -137,13 +132,11 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
         return $this;
     }
 
-    #[\Override]
     public function getEmailAuthRecipient(): string
     {
         return $this->email;
     }
 
-    #[\Override]
     public function getEmailAuthCode(): ?string
     {
         if (null === $this->twoFactorsAuthenticationEmailCode) {
@@ -153,7 +146,6 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
         return $this->twoFactorsAuthenticationEmailCode;
     }
 
-    #[\Override]
     public function setEmailAuthCode(string $authCode): void
     {
         $this->twoFactorsAuthenticationEmailCode = $authCode;

@@ -39,7 +39,28 @@ jobs:
                 with:
                     php_extensions: redis
                     php_version: 8.3
-            -   name: Run database migrations
-                run: php artisan migrate --env=testing --force
+    phpunit:
+        needs: build
+        runs-on: ubuntu-latest
+        services:
+            mysql:
+                image: mysql:8.0
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                    MYSQL_DATABASE: test
+                ports:
+                    - 3306:3306
+                options: >-
+                    --health-cmd="mysqladmin ping --silent"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=3
+        steps:
             -   name: Run PHPUnit
                 run: vendor/bin/phpunit --coverage-text
+    phpstan:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Run PHPStan
+                run: vendor/bin/phpstan --memory-limit=1G
