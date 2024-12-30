@@ -1,9 +1,7 @@
 name: CI Pipeline
 
 on:
-    push:
-        branches:
-            - '**'
+    - push
 
 jobs:
     build:
@@ -28,7 +26,7 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: 8.3
-                    extensions: mbstring, pdo_mysql
+                    extensions: mbstring, pdo_mysql, redis
                     ini-values: post_max_size=256M, max_execution_time=300
                     tools: composer
             -   name: Cache Composer dependencies
