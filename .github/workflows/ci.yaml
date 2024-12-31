@@ -45,10 +45,23 @@ jobs:
                 run: vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --show-progress=none
             -   name: Run Twig-CS-Fixer
                 run: vendor/bin/twig-cs-fixer lint templates
-            -   name: Run PHPStan
-                run: vendor/bin/phpstan --memory-limit=1G --no-progress
             -   name: Run PHPUnit
                 run: vendor/bin/phpunit
                 env:
                     DATABASE_URL: "mysql://root:root@127.0.0.1:3306/test?serverVersion=8.0.32&charset=utf8mb4"
                     MAILER_DSN: "null://null"
+    phpstan:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v3
+            -   name: Cache Composer dependencies
+                uses: actions/cache@v3
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: ${{ runner.os }}-composer-
+            -   name: Check vendors
+                run: ls -l vendor/bin
+            -   name: Run PHPStan
+                run: vendor/bin/phpstan --memory-limit=1G --no-progress
