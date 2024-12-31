@@ -62,5 +62,7 @@ jobs:
                     path: vendor
                     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
                     restore-keys: ${{ runner.os }}-composer-
+            -   name: Dump cache
+                run: bin/console cache:clear --env=dev
             -   name: Run PHPStan
                 run: vendor/bin/phpstan --memory-limit=1G --no-progress
