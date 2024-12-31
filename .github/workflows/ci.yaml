@@ -39,18 +39,12 @@ jobs:
                 with:
                     php_extensions: redis
                     php_version: 8.3
-            -   name: Wait for MySQL to be ready
-                run: |
-                    for i in {1..10}; do
-                      if mysqladmin ping -h127.0.0.1 -uroot -proot --silent; then
-                        echo "MySQL is ready!";
-                        break;
-                      fi
-                      echo "Waiting for MySQL to be ready...";
-                      sleep 3;
-                    done
-            -   name: Test MySQL Connection
-                run: mysql -h127.0.0.1 -uroot -proot -e "SHOW DATABASES;"
+            -   name: Run Rector
+                run: vendor/bin/rector --dry-run --no-progress-bar
+            -   name: Run PHP-CS-Fixer
+                run: vendor/bin/php-cs-fixer --allow-risky=yes
+            -   name: Run Twig-CS-Fixer
+                run: vendor/bin/twig-cs-fixer lint templates
             -   name: Run PHPStan
                 run: vendor/bin/phpstan --memory-limit=1G
             -   name: Run PHPUnit
