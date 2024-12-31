@@ -4,7 +4,7 @@ on:
     - push
 
 jobs:
-    setup:
+    build:
         runs-on: ubuntu-latest
         services:
             mysql:
@@ -37,50 +37,16 @@ jobs:
             -   name: Install dependencies
                 uses: php-actions/composer@v6
                 with:
-                    dev: yes
                     php_extensions: redis
                     php_version: 8.3
-    lint:
-        needs: setup
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Checkout code
-                uses: actions/checkout@v3
-            -   name: List vendor/bin
-                run: ls -la vendor/bin
             -   name: Run Rector
                 run: vendor/bin/rector --dry-run --no-progress-bar
             -   name: Run PHP-CS-Fixer
                 run: vendor/bin/php-cs-fixer
             -   name: Run Twig-CS-Fixer
                 run: vendor/bin/twig-cs-fixer lint templates
-    static-analysis:
-        needs: setup
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Checkout code
-                uses: actions/checkout@v3
             -   name: Run PHPStan
                 run: vendor/bin/phpstan --memory-limit=1G
-    tests:
-        needs: setup
-        runs-on: ubuntu-latest
-        services:
-            mysql:
-                image: mysql:8.0
-                env:
-                    MYSQL_ROOT_PASSWORD: root
-                    MYSQL_DATABASE: test
-                ports:
-                    - 3306:3306
-                options: >-
-                    --health-cmd="mysqladmin ping --silent"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=3
-        steps:
-            -   name: Checkout code
-                uses: actions/checkout@v3
             -   name: Run PHPUnit
                 run: vendor/bin/phpunit
                 env:
