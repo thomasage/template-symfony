@@ -39,8 +39,32 @@ jobs:
                 with:
                     php_extensions: redis
                     php_version: 8.3
+    rector:
+        needs: setup
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v3
+            -   name: Cache Composer dependencies
+                uses: actions/cache@v3
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: ${{ runner.os }}-composer-
             -   name: Run Rector
                 run: vendor/bin/rector --dry-run --no-progress-bar
+    php-cs-fixer:
+        needs: setup
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v3
+            -   name: Cache Composer dependencies
+                uses: actions/cache@v3
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: ${{ runner.os }}-composer-
             -   name: Run PHP-CS-Fixer
                 run: vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --show-progress=none
     twig-cs-fixer:
@@ -99,7 +123,7 @@ jobs:
                     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
                     restore-keys: ${{ runner.os }}-composer-
             -   name: Run PHPUnit
-                run: vendor/bin/phpunit
+                run: php -dpcov.enabled=1 vendor/bin/phpunit --coverage-text
                 env:
                     DATABASE_URL: "mysql://root:root@127.0.0.1:3306/test?serverVersion=8.0.32&charset=utf8mb4"
                     MAILER_DSN: "null://null"
