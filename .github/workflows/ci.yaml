@@ -37,6 +37,7 @@ jobs:
             -   name: Install dependencies
                 uses: php-actions/composer@v6
                 with:
+                    dev: yes
                     php_extensions: redis
                     php_version: 8.3
     lint:
@@ -60,7 +61,6 @@ jobs:
             -   name: Run PHPStan
                 run: vendor/bin/phpstan --memory-limit=1G
     tests:
-        name: Run Tests
         needs: setup
         runs-on: ubuntu-latest
         services:
