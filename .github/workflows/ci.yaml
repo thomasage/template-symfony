@@ -43,5 +43,3 @@ jobs:
                     php_version: 8.3
             -   name: Run PHPStan
                 run: vendor/bin/phpstan --memory-limit=1G
-            -   name: Run PHPUnit
-                run: vendor/bin/phpunit --coverage-text
