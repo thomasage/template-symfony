@@ -1,0 +1,18 @@
+image: composer:2.0
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: Setup environment
+            script:
+              - composer install
+            caches:
+              - composer
+        - step:
+            name: Run PHP-CS-Fixer
+            image: php:8.3
+            caches:
+              - composer
+            script:
+              - vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --show-progress=none
