@@ -14,7 +14,7 @@ final class Version00000000000000 extends AbstractMigration
     {
         $this->abortIf(
             !$this->connection->getDatabasePlatform() instanceof MySQL80Platform,
-            sprintf('Migration can only be executed safely on "%s".', MySQL80Platform::class)
+            \sprintf('Migration can only be executed safely on "%s".', MySQL80Platform::class),
         );
 
         if ($this->sm->tablesExist(['user'])) {
@@ -38,7 +38,7 @@ CREATE TABLE user ( id INT UNSIGNED AUTO_INCREMENT NOT NULL,
                     PRIMARY KEY(id) )
     DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`
     ENGINE = InnoDB
-SQL
+SQL,
         );
     }
 }

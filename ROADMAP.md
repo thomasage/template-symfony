@@ -1,4 +1,3 @@
-* GitHub Actions
 * GitLab CI
 * Bitbucket Pipelines
 * AWS
@@ -6,3 +5,5 @@
 * Vault
 * Update PHPStan to 2.0
 * TOTP authentication
+* Add mutation testing
+

@@ -18,7 +18,6 @@ final class UserFactory extends PersistentProxyObjectFactory
         parent::__construct();
     }
 
-    #[\Override]
     public static function class(): string
     {
         return User::class;
@@ -31,7 +30,6 @@ final class UserFactory extends PersistentProxyObjectFactory
         ]);
     }
 
-    #[\Override]
     protected function defaults(): array|callable
     {
         return [
@@ -42,7 +40,6 @@ final class UserFactory extends PersistentProxyObjectFactory
         ];
     }
 
-    #[\Override]
     protected function initialize(): static
     {
         return $this->afterInstantiate(function (User $user): void {
