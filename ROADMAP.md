@@ -5,4 +5,3 @@
 * Vault
 * Update PHPStan to 2.0
 * TOTP authentication
-* CI Code coverage
