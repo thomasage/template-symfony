@@ -127,6 +127,3 @@ jobs:
                 env:
                     DATABASE_URL: "mysql://root:root@127.0.0.1:3306/test?serverVersion=8.0.32&charset=utf8mb4"
                     MAILER_DSN: "null://null"
-                with:
-                    coverage: pcov
-                    extensions: apcu, intl, opcache, pdo, pdo_mysql, pcov, redis, zip
