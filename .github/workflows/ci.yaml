@@ -133,4 +133,3 @@ jobs:
                 env:
                     DATABASE_URL: "mysql://root:root@127.0.0.1:3306/test?serverVersion=8.0.32&charset=utf8mb4"
                     MAILER_DSN: "null://null"
-                    PCOV_ENABLED: 1
