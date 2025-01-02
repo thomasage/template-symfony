@@ -123,7 +123,7 @@ jobs:
                     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
                     restore-keys: ${{ runner.os }}-composer-
             -   name: Run PHPUnit
-                run: php -dpcov.enabled=1 vendor/bin/phpunit --coverage-text
+                run: php -dpcov.enabled=1 -dxdebug.mode=off vendor/bin/phpunit --coverage-text
                 env:
                     DATABASE_URL: "mysql://root:root@127.0.0.1:3306/test?serverVersion=8.0.32&charset=utf8mb4"
                     MAILER_DSN: "null://null"
