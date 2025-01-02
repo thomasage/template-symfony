@@ -133,11 +133,9 @@ jobs:
                 env:
                     DATABASE_URL: "mysql://root:root@127.0.0.1:3306/test?serverVersion=8.0.32&charset=utf8mb4"
                     MAILER_DSN: "null://null"
-            -   name: Show files
-                run: ls -l
-            - name: Upload coverage report
-              uses: actions/upload-artifact@v3
-              with:
-                  name: code-coverage
-                  path: |
-                      coverage
+            -   name: Upload coverage report
+                uses: actions/upload-artifact@v3
+                with:
+                    name: code-coverage
+                    path: |
+                        coverage
