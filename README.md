@@ -36,7 +36,8 @@
 * Messages queue: [Redis](https://redis.io/)
 * Messages worker
 
-## Available continuous Integration
+## Available continuous integrations
 
 * Bitbucket Pipelines
 * GitHub Actions
+* GitLab CI
