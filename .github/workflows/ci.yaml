@@ -132,4 +132,3 @@ jobs:
                 run: vendor/bin/phpunit --coverage-text
                 env:
                     DATABASE_URL: "mysql://root:root@127.0.0.1:3306/test?serverVersion=8.4&charset=utf8mb4"
-                    MAILER_DSN: "null://null"
