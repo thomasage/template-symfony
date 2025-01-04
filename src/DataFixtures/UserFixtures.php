@@ -17,5 +17,7 @@ final class UserFixtures extends Fixture
             'password' => 'admin',
             'roles' => ['ROLE_ADMIN'],
         ]);
+
+        UserFactory::createMany(20);
     }
 }

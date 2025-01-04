@@ -13,11 +13,13 @@ final class IndexController extends AbstractController
 {
     public function __construct(private readonly UserRepository $userRepository) {}
 
-    #[Route('/admin/user', name: 'app_user_index', methods: ['GET'])]
-    public function __invoke(): Response
+    #[Route('/admin/user/{page<\d+>?1}', name: 'app_user_index', methods: ['GET'])]
+    public function __invoke(int $page): Response
     {
+        $users = $this->userRepository->findBySearch($page);
+
         return $this->render('admin/user/index.html.twig', [
-            'users' => $this->userRepository->findAll(),
+            'users' => $users,
         ]);
     }
 }

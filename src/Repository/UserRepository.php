@@ -7,6 +7,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -33,5 +35,20 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @return Pagerfanta<User>
+     */
+    public function findBySearch(int $page = 1, int $maxPerPage = 10): Pagerfanta
+    {
+        $query = $this
+            ->createQueryBuilder('user')
+            ->orderBy('user.id')
+            ->getQuery();
+
+        return (new Pagerfanta(new QueryAdapter($query)))
+            ->setMaxPerPage($maxPerPage)
+            ->setCurrentPage($page);
     }
 }
