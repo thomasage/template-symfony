@@ -42,7 +42,7 @@ phpunit:
         MYSQL_PASSWORD: test
         MYSQL_ROOT_PASSWORD: root
     before_script:
-        - echo 'DATABASE_URL=mysql://test:test@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
+        - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
     script:
         - vendor/bin/phpunit --coverage-text
     dependencies:
