@@ -3,7 +3,7 @@ image: thomasagedev/template-symfony:1.0.0
 definitions:
     services:
         mysql:
-            image: mysql:8.4
+            image: mysql:8.4.3
             environment:
                 MYSQL_DATABASE: test
                 MYSQL_PASSWORD: test
@@ -55,5 +55,5 @@ pipelines:
                         caches:
                             - composer
                         script:
-                            - echo 'DATABASE_URL=mysql://test:test@127.0.0.1:3306/test?serverVersion=8.4&charset=utf8mb4' >> .env.test
+                            - echo 'DATABASE_URL=mysql://test:test@127.0.0.1:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
                             - vendor/bin/phpunit --coverage-text

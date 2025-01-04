@@ -32,7 +32,7 @@
 
 * HTTP server: [Caddy](https://caddyserver.com/) (port: 443)
 * [PHP-FPM](https://www.php.net/) (version: 8.3) with [Symfony](https://symfony.com/) (version: 7.2)
-* Database: [MySQL](https://www.mysql.com/) (8.4)
+* Database: [MySQL](https://www.mysql.com/) (8.4.3)
 * Messages queue: [Redis](https://redis.io/)
 * Messages worker
 
