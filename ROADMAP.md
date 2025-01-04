@@ -8,3 +8,4 @@
 * Add mutation testing
 * Reset password
 * Pagination
+* Bump to PHP 8.4
