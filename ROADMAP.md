@@ -7,3 +7,4 @@
 * TOTP authentication
 * Add mutation testing
 * Reset password
+* Pagination
