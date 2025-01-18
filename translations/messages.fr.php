@@ -7,7 +7,6 @@ return [
         'add' => 'Ajouter',
         'save' => 'Enregistrer',
         'send_notification' => 'Envoyer une notification',
-        'sign_in' => 'Ouvrir une session',
         'sign_out' => 'Déconnexion',
     ],
     'fields' => [

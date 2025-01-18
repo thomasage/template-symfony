@@ -9,12 +9,20 @@ help:
 ## Docker
 ##
 
-# Build the containers
-install:
+# Init database !!! Caution: will flush all data !!!
+init_database:
+	@docker compose exec php bin/console doctrine:schema:drop --force --full-database
+	@docker compose exec php bin/console doctrine:migrations:migrate -n
+	@docker compose exec php bin/console doctrine:fixtures:load -n
+
+# Init SSL certificates
+init_ssl:
 	@mkcert "acme.localhost"
 	@mv "acme.localhost.pem" docker/ssl/certificate.pem
 	@mv "acme.localhost-key.pem" docker/ssl/certificate-key.pem
-	@docker compose build
+
+# Build the containers
+install: init_ssl start init_database stop
 
 set_permissions:
 	@docker compose exec php chown -R www-data:www-data /srv/var

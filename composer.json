@@ -36,6 +36,7 @@
         "symfony/uid": "7.2.*",
         "symfony/validator": "7.2.*",
         "symfony/yaml": "7.2.*",
+        "symfonycasts/reset-password-bundle": "^1.23",
         "twig/extra-bundle": "^2.12|^3.18",
         "twig/intl-extra": "^3.18",
         "twig/twig": "^2.12|^3.18.0"

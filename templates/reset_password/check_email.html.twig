@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'reset-password' %}
+
+{% block title %}{{ 'page_title'|trans }}{% endblock %}
+
+{% block body %}
+
+    <p>{{ 'notifications.email_sent'|trans }}</p>
+    <p>{{ 'notifications.link_expiration'|trans({'%expiration%': resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle')}) }}</p>
+    <p>{{ 'notifications.not_received'|trans({'%link%': path('app_forgot_password_request')})|raw }}</p>
+
+{% endblock %}

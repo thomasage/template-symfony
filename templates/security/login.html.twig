@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'login' %}
+
 {% block body %}
 
     <form method="post">
@@ -35,6 +37,10 @@
         </div>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div>
+            <a href="{{ path('app_forgot_password_request') }}">{{ 'actions.reset_password'|trans }}</a>
+        </div>
 
     </form>
 

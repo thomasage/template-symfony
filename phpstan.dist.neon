@@ -27,5 +27,7 @@ parameters:
                 - Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory
         noNullableReturnTypeDeclaration:
             enabled: false
+        noParameterWithNullDefaultValue:
+            enabled: false
         noParameterWithNullableTypeDeclaration:
             enabled: false
