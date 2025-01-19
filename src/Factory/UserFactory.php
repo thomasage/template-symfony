@@ -30,7 +30,15 @@ final class UserFactory extends PersistentProxyObjectFactory
         ]);
     }
 
-    protected function defaults(): array|callable
+    /**
+     * @return array{
+     *     email: string,
+     *     password: string,
+     *     roles: list<string>,
+     *     twoFactorsAuthentication: bool,
+     * }
+     */
+    protected function defaults(): array
     {
         return [
             'email' => self::faker()->unique()->email(),

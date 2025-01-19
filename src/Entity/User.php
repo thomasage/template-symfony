@@ -81,7 +81,7 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
     }
 
     /**
-     * @return list<string>
+     * @return non-empty-list<string>
      */
     public function getRoles(): array
     {
@@ -89,7 +89,7 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterface, Us
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
     }
 
     /**

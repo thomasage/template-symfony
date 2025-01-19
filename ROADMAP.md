@@ -1,10 +1,8 @@
-* GitLab CI
-* Bitbucket Pipelines
-* AWS
-* Config YAML => PHP
-* Vault
-* Update PHPStan to 2.0
-* TOTP authentication
+* Configure AWS
+* Switch config from YAML => PHP
+* Configure Vault
+* Add TOTP authentication
 * Add mutation testing
-* Reset password
-* Bump to PHP 8.4
+* Add reset password
+* Upgrade to PHP 8.4
+* Upgrade to DBAL 4.2

@@ -9,12 +9,13 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
+ *
+ * @implements PasswordUpgraderInterface<User>
  */
 final class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
@@ -25,13 +26,11 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param User $user
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(\sprintf('Instances of "%s" are not supported.', $user::class));
-        }
-
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
@@ -47,8 +46,11 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
             ->orderBy('user.id')
             ->getQuery();
 
-        return (new Pagerfanta(new QueryAdapter($query)))
+        /** @var Pagerfanta<User> $pagerFanta */
+        $pagerFanta = (new Pagerfanta(new QueryAdapter($query)))
             ->setMaxPerPage($maxPerPage)
             ->setCurrentPage($page);
+
+        return $pagerFanta;
     }
 }
