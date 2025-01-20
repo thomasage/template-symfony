@@ -5,7 +5,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "babdev/pagerfanta-bundle": "^4.5",
@@ -48,7 +48,7 @@
         "phpstan/phpstan": "^2.1.1",
         "phpstan/phpstan-deprecation-rules": "^2.0.1",
         "phpstan/phpstan-doctrine": "^2.0.1",
-        "phpstan/phpstan-strict-rules": "^2.0.1",
+        "phpstan/phpstan-strict-rules": "^2.0.2",
         "phpstan/phpstan-symfony": "^2.0.1",
         "phpunit/phpunit": "^11.5.3",
         "rector/rector": "^2.0.7",
