@@ -19,11 +19,9 @@ final class ProfileTypeTest extends TypeTestCase
         $form = $this->factory->create(ProfileType::class, $data);
         $form->submit([
             'email' => 'test@example.com',
-            'twoFactorsAuthentication' => true,
         ]);
 
         self::assertTrue($form->isSynchronized());
         self::assertSame('test@example.com', $data->email);
-        self::assertTrue($data->twoFactorsAuthentication);
     }
 }

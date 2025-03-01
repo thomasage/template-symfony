@@ -18,8 +18,7 @@ final class UserTest extends TestCase
             ->setEmail('test@test.com')
             ->setLastLoginAt()
             ->setPassword('test')
-            ->setRoles(['ROLE_GUEST'])
-            ->setTwoFactorsAuthentication(true);
+            ->setRoles(['ROLE_GUEST']);
         $user->eraseCredentials();
         $user->setEmailAuthCode('123456');
 
@@ -33,7 +32,6 @@ final class UserTest extends TestCase
         self::assertSame(36, \strlen($user->getUuid()->toString()));
         self::assertSame(['ROLE_GUEST', 'ROLE_USER'], $user->getRoles());
         self::assertTrue($user->hasTwoFactorsAuthentication());
-        self::assertTrue($user->isEmailAuthEnabled());
     }
 
     public function testShouldThrowAnExceptionWithoutEmailAuthCode(): void

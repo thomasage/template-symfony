@@ -11,7 +11,6 @@ return [
         'sign_out' => 'Déconnexion',
     ],
     'fields' => [
-        '2fa' => 'Double authentification',
         'confirmation' => 'Confirmation',
         'email' => 'Courriel',
         'last_login' => 'Dernière connexion',

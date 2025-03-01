@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Profile;
 
 use App\Entity\User;
 use App\Form\ProfileData;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class ProfileController extends AbstractController
+final class IndexController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -27,15 +27,12 @@ final class ProfileController extends AbstractController
     {
         $data = new ProfileData();
         $data->email = $user->getEmail();
-        $data->twoFactorsAuthentication = $user->hasTwoFactorsAuthentication();
 
         $form = $this->createForm(ProfileType::class, $data);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user
-                ->setEmail($data->email)
-                ->setTwoFactorsAuthentication($data->twoFactorsAuthentication);
+            $user->setEmail($data->email);
 
             $this->entityManager->flush();
 
@@ -44,7 +41,7 @@ final class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('profile.html.twig', [
+        return $this->render('profile/index.html.twig', [
             'form' => $form,
         ]);
     }

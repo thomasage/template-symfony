@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use App\Controller\ProfileController;
+use App\Controller\Profile\IndexController;
 use App\Factory\UserFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -12,7 +12,7 @@ use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-#[CoversClass(ProfileController::class)]
+#[CoversClass(IndexController::class)]
 final class ProfileControllerTest extends KernelTestCase
 {
     use Factories;
@@ -31,13 +31,13 @@ final class ProfileControllerTest extends KernelTestCase
             ->assertSuccessful()
             ->assertSeeElement('form[name="profile"]')
             ->assertSeeElement('#profile_email')
-            ->assertSeeElement('#profile_twoFactorsAuthentication')
+//            ->assertSeeElement('#profile_twoFactorsAuthentication')
             ->fillField('profile_email', 'test@example.com')
-            ->checkField('profile_twoFactorsAuthentication')
+//            ->checkField('profile_twoFactorsAuthentication')
             ->click('button[type=submit]')
             ->assertOn('/profile');
 
         self::assertSame('test@example.com', $user->getEmail());
-        self::assertTrue($user->hasTwoFactorsAuthentication());
+        //        self::assertTrue($user->hasTwoFactorsAuthentication());
     }
 }
