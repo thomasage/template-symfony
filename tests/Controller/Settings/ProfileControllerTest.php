@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Settings;
 
-use App\Controller\ProfileController;
+use App\Controller\Settings\ProfileController;
 use App\Factory\UserFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -27,17 +27,14 @@ final class ProfileControllerTest extends KernelTestCase
 
         $this->browser()
             ->actingAs($user)
-            ->visit('/profile')
+            ->visit('/settings/profile')
             ->assertSuccessful()
             ->assertSeeElement('form[name="profile"]')
             ->assertSeeElement('#profile_email')
-            ->assertSeeElement('#profile_twoFactorsAuthentication')
             ->fillField('profile_email', 'test@example.com')
-            ->checkField('profile_twoFactorsAuthentication')
             ->click('button[type=submit]')
-            ->assertOn('/profile');
+            ->assertOn('/settings/profile');
 
         self::assertSame('test@example.com', $user->getEmail());
-        self::assertTrue($user->hasTwoFactorsAuthentication());
     }
 }

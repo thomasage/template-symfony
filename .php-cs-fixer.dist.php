@@ -16,5 +16,8 @@ return (new Config())
         '@Symfony' => true,
         '@Symfony:risky' => true,
         '@PER-CS2.0' => true,
+        'global_namespace_import' => [
+            'import_classes' => true,
+        ],
         'ordered_interfaces' => true,
     ]);

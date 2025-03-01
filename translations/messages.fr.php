@@ -5,13 +5,15 @@ declare(strict_types=1);
 return [
     'actions' => [
         'add' => 'Ajouter',
+        'cancel' => 'Annuler',
+        'enable' => 'Activer',
+        'disable' => 'Désactiver',
         'save' => 'Enregistrer',
         'send_notification' => 'Envoyer une notification',
         'sign_in' => 'Ouvrir une session',
         'sign_out' => 'Déconnexion',
     ],
     'fields' => [
-        '2fa' => 'Double authentification',
         'confirmation' => 'Confirmation',
         'email' => 'Courriel',
         'last_login' => 'Dernière connexion',
@@ -24,7 +26,7 @@ return [
             'user' => 'Utilisateurs',
         ],
         'home' => 'Accueil',
-        'profile' => 'Profil',
+        'settings' => 'Paramètres',
     ],
     'misc' => [
         'no' => 'Non',

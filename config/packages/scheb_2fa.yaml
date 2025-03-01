@@ -6,3 +6,11 @@ scheb_two_factor:
         digits: 6
         enabled: true
         sender_email: no-reply@example.com
+    totp:
+        enabled: true
+        issuer: Acme
+        parameters:
+            digest: sha1
+            digits: 6
+            period: 30
+        server_name: Localhost

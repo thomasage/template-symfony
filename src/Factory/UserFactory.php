@@ -35,7 +35,6 @@ final class UserFactory extends PersistentProxyObjectFactory
      *     email: string,
      *     password: string,
      *     roles: list<string>,
-     *     twoFactorsAuthentication: bool,
      * }
      */
     protected function defaults(): array
@@ -44,7 +43,6 @@ final class UserFactory extends PersistentProxyObjectFactory
             'email' => self::faker()->unique()->email(),
             'password' => self::faker()->password(),
             'roles' => [],
-            'twoFactorsAuthentication' => false,
         ];
     }
 

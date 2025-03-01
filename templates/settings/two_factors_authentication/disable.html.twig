@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'settings' %}
+
+{% block body %}
+
+    <h1>Setup Two-Factor Authentication</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div>
+        <button type="submit">{{ 'actions.disable'|trans(domain: 'messages') }}</button>
+        <a href="{{ path('app_settings_profile') }}">{{ 'actions.cancel'|trans(domain: 'messages') }}</a>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}

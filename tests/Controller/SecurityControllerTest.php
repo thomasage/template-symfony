@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
+use LogicException;
 
 #[CoversClass(SecurityController::class)]
 final class SecurityControllerTest extends KernelTestCase
@@ -39,7 +40,7 @@ final class SecurityControllerTest extends KernelTestCase
 
     public function testShouldThrowExceptionWhenLogoutMethodIsCalledDirectly(): never
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
 
         $controller = new SecurityController();
         $controller->logout();

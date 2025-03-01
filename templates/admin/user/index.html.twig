@@ -13,7 +13,6 @@
         <tr>
             <th>{{ 'fields.email'|trans }}</th>
             <th>{{ 'fields.roles'|trans }}</th>
-            <th>{{ 'fields.2fa'|trans }}</th>
             <th>{{ 'fields.last_login'|trans }}</th>
         </tr>
         </thead>
@@ -30,7 +29,6 @@
                         <div>{{ role }}</div>
                     {% endfor %}
                 </td>
-                <td>{{ (user.twoFactorsAuthentication ? 'misc.yes' : 'misc.no')|trans }}</td>
                 <td>{{ user.lastLoginAt is not null ? user.lastLoginAt|format_datetime : '' }}</td>
             </tr>
         {% else %}
