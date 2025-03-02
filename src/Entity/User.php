@@ -201,15 +201,19 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterfaceEmai
         return $this;
     }
 
-    public function setTwoFactorsAuthenticationTotpEnabled(bool $twoFactorsAuthenticationTotpEnabled): self
+    public function isTwoFactorsAuthenticationTotpEnabled(): bool
     {
-        $this->twoFactorsAuthenticationTotpEnabled = $twoFactorsAuthenticationTotpEnabled;
-
-        return $this;
+        return $this->twoFactorsAuthenticationTotpEnabled;
     }
 
-    public function getTwoFactorsAuthenticationTotpSecret(): ?string
+    public function disableTwoFactorsAuthenticationTotp(): void
     {
-        return $this->twoFactorsAuthenticationTotpSecret;
+        $this->twoFactorsAuthenticationTotpEnabled = false;
+        $this->twoFactorsAuthenticationTotpSecret = null;
+    }
+
+    public function enableTwoFactorsAuthenticationTotp(): void
+    {
+        $this->twoFactorsAuthenticationTotpEnabled = true;
     }
 }

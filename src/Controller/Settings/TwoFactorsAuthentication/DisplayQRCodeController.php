@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Profile\TwoFactorAuthentication;
+namespace App\Controller\Settings\TwoFactorsAuthentication;
 
 use App\Entity\User;
 use Endroid\QrCode\Builder\Builder;
@@ -20,7 +20,7 @@ final class DisplayQRCodeController extends AbstractController
 {
     public function __construct(private readonly TotpAuthenticatorInterface $totpAuthenticator) {}
 
-    #[Route('/profile/2fa/qrcode', name: 'app_profile_2fa_qrcode', methods: ['GET'])]
+    #[Route('/settings/2fa/qrcode', name: 'app_settings_2fa_qrcode', methods: ['GET'])]
     public function __invoke(#[CurrentUser] User $user): Response
     {
         $totpQrCode = $this->totpAuthenticator->getQRContent($user);

@@ -5,6 +5,9 @@ declare(strict_types=1);
 return [
     'actions' => [
         'add' => 'Ajouter',
+        'cancel' => 'Annuler',
+        'enable' => 'Activer',
+        'disable' => 'Désactiver',
         'save' => 'Enregistrer',
         'send_notification' => 'Envoyer une notification',
         'sign_in' => 'Ouvrir une session',
@@ -23,7 +26,7 @@ return [
             'user' => 'Utilisateurs',
         ],
         'home' => 'Accueil',
-        'profile' => 'Profil',
+        'settings' => 'Paramètres',
     ],
     'misc' => [
         'no' => 'Non',
