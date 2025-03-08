@@ -120,7 +120,7 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     coverage: pcov
-                    extensions: apcu, intl, opcache, pdo, pdo_mysql, pcov, redis, zip
+                    extensions: apcu, gd, intl, opcache, pdo, pdo_mysql, pcov, redis, zip
                     php-version: 8.3
             -   name: Cache Composer dependencies
                 uses: actions/cache@v3
