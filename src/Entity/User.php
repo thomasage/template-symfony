@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface as TwoFactorInterfaceEmail;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface as TwoFactorInterfaceTotp;
@@ -14,13 +13,12 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 use DateTimeImmutable;
-use LogicException;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_UUID', fields: ['uuid'])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements PasswordAuthenticatedUserInterface, TwoFactorInterfaceEmail, TwoFactorInterfaceTotp, UserInterface
+class User implements PasswordAuthenticatedUserInterface, TwoFactorInterfaceTotp, UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -46,13 +44,7 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterfaceEmai
     private ?DateTimeImmutable $lastLoginAt = null;
 
     #[ORM\Column]
-    private bool $twoFactorsAuthenticationEmailEnabled = false;
-
-    #[ORM\Column]
     private bool $twoFactorsAuthenticationTotpEnabled = false;
-
-    #[ORM\Column(nullable: true)]
-    private ?string $twoFactorsAuthenticationEmailCode = null;
 
     #[ORM\Column(nullable: true)]
     private ?string $twoFactorsAuthenticationTotpSecret = null;
@@ -143,15 +135,6 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterfaceEmai
         return $this;
     }
 
-    public function getEmailAuthCode(): ?string
-    {
-        if (null === $this->twoFactorsAuthenticationEmailCode) {
-            throw new LogicException('The email authentication code was not set');
-        }
-
-        return $this->twoFactorsAuthenticationEmailCode;
-    }
-
     public function isTotpAuthenticationEnabled(): bool
     {
         return $this->twoFactorsAuthenticationTotpEnabled && null !== $this->twoFactorsAuthenticationTotpSecret;
@@ -176,21 +159,6 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterfaceEmai
         );
     }
 
-    public function hasTwoFactorsAuthentication(): bool
-    {
-        return $this->twoFactorsAuthenticationEmailEnabled;
-    }
-
-    public function getEmailAuthRecipient(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmailAuthCode(string $authCode): void
-    {
-        $this->twoFactorsAuthenticationEmailCode = $authCode;
-    }
-
     public function setTwoFactorsAuthenticationTotpSecret(?string $secret): self
     {
         $this->twoFactorsAuthenticationTotpSecret = $secret;
@@ -207,10 +175,5 @@ class User implements PasswordAuthenticatedUserInterface, TwoFactorInterfaceEmai
     public function enableTwoFactorsAuthenticationTotp(): void
     {
         $this->twoFactorsAuthenticationTotpEnabled = true;
-    }
-
-    public function enableTwoFactorsAuthenticationEmail(): void
-    {
-        $this->twoFactorsAuthenticationEmailEnabled = true;
     }
 }

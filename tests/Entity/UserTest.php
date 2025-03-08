@@ -8,7 +8,6 @@ use App\Entity\User;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
-use LogicException;
 
 #[CoversClass(User::class)]
 final class UserTest extends TestCase
@@ -30,15 +29,6 @@ final class UserTest extends TestCase
         self::assertSame('test@test.com', $user->getUserIdentifier());
         self::assertSame(36, \strlen($user->getUuid()->toString()));
         self::assertSame(['ROLE_GUEST', 'ROLE_USER'], $user->getRoles());
-    }
-
-    public function testShouldThrowAnExceptionWithoutEmailAuthCode(): void
-    {
-        $user = new User();
-
-        $this->expectException(LogicException::class);
-
-        $user->getEmailAuthCode();
     }
 
     public function testShouldEnableTwoFactorsAuthenticationTotp(): void
@@ -68,17 +58,5 @@ final class UserTest extends TestCase
 
         self::assertFalse($user->isTotpAuthenticationEnabled());
         self::assertNull($totpConfiguration);
-    }
-
-    public function testShouldEnableTwoFactorsAuthenticationEmail(): void
-    {
-        $user = new User();
-        $user->setEmail('test@test.com');
-        $user->setEmailAuthCode('test');
-        $user->enableTwoFactorsAuthenticationEmail();
-
-        self::assertTrue($user->hasTwoFactorsAuthentication());
-        self::assertSame('test@test.com', $user->getEmailAuthRecipient());
-        self::assertSame('test', $user->getEmailAuthCode());
     }
 }
