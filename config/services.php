@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Tests\Double\FakeTotpAuthenticator;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
 
     $services
         ->defaults()
@@ -19,4 +21,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/Entity/',
             __DIR__ . '/../src/Kernel.php',
         ]);
+
+    if ('test' === $container->env()) {
+        $services->set(TotpAuthenticatorInterface::class, FakeTotpAuthenticator::class);
+    }
 };

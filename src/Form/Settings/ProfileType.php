@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form;
+namespace App\Form\Settings;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,10 +20,6 @@ final class ProfileType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'fields.email',
                 'required' => true,
-            ])
-            ->add('twoFactorsAuthentication', CheckboxType::class, [
-                'label' => 'fields.2fa',
-                'required' => false,
             ]);
     }
 

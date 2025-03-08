@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'settings' %}
+
+{% block body %}
+
+    <h1>Setup Two-Factor Authentication</h1>
+
+    <p>Scan the QR code using Google Authenticator or another TOTP app:</p>
+
+    <img src="{{ path('app_settings_2fa_qrcode') }}" alt="QR Code">
+
+    <p>Secret : {{ secret }}</p>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div>
+        <button type="submit">{{ 'actions.enable'|trans(domain: 'messages') }}</button>
+        <a href="{{ path('app_settings_profile') }}">{{ 'actions.cancel'|trans(domain: 'messages') }}</a>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}

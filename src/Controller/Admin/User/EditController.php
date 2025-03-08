@@ -27,7 +27,6 @@ final class EditController extends AbstractController
         $data = new UserEditData();
         $data->email = $user->getEmail();
         $data->roles = $user->getRoles();
-        $data->twoFactorsAuthentication = $user->hasTwoFactorsAuthentication();
 
         $formEdit = $this->createForm(UserEditType::class, $data);
         $formEdit->handleRequest($request);
@@ -35,8 +34,7 @@ final class EditController extends AbstractController
         if ($formEdit->isSubmitted() && $formEdit->isValid()) {
             $user
                 ->setEmail($data->email)
-                ->setRoles($data->roles)
-            ->setTwoFactorsAuthentication($data->twoFactorsAuthentication);
+                ->setRoles($data->roles);
 
             $this->entityManager->flush();
 

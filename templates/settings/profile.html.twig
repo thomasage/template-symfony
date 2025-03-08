@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'settings' %}
+
+{% block body %}
+
+    <h1>{{ 'page_title'|trans }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div>
+        <button type="submit">{{ 'actions.save'|trans(domain: 'messages') }}</button>
+    </div>
+    {{ form_end(form) }}
+
+    <h2>{{ '2fa.title'|trans }}</h2>
+
+    {% if app.user.isTotpAuthenticationEnabled %}
+
+        <div>{{ '2fa.enabled'|trans }}</div>
+
+        <div>
+            <a href="{{ path('app_settings_2fa_disable') }}">
+                {{ '2fa.disable'|trans }}
+            </a>
+        </div>
+
+    {% else %}
+
+        <div>{{ '2fa.disabled'|trans }}</div>
+
+        <div>
+            <a href="{{ path('app_settings_2fa_setup') }}">
+                {{ '2fa.setup'|trans }}
+            </a>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

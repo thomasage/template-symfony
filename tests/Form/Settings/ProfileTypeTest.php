@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Form;
+namespace App\Tests\Form\Settings;
 
-use App\Form\ProfileData;
-use App\Form\ProfileType;
+use App\Form\Settings\ProfileData;
+use App\Form\Settings\ProfileType;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Form\Test\TypeTestCase;
 
@@ -19,11 +19,9 @@ final class ProfileTypeTest extends TypeTestCase
         $form = $this->factory->create(ProfileType::class, $data);
         $form->submit([
             'email' => 'test@example.com',
-            'twoFactorsAuthentication' => true,
         ]);
 
         self::assertTrue($form->isSynchronized());
         self::assertSame('test@example.com', $data->email);
-        self::assertTrue($data->twoFactorsAuthentication);
     }
 }

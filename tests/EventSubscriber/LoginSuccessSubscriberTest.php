@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
+use DateTimeImmutable;
 
 #[CoversClass(LoginSuccessSubscriber::class)]
 final class LoginSuccessSubscriberTest extends WebTestCase
@@ -38,6 +39,6 @@ final class LoginSuccessSubscriberTest extends WebTestCase
 
         $subscriber->onLoginSuccessEvent($event);
 
-        self::assertInstanceOf(\DateTimeImmutable::class, $user->getLastLoginAt());
+        self::assertInstanceOf(DateTimeImmutable::class, $user->getLastLoginAt());
     }
 }
