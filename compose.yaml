@@ -2,31 +2,9 @@ name: acme
 
 services:
 
-    http:
-        image: caddy:latest
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-            - ./docker/ssl:/etc/ssl:ro
-            - ./public:/srv:ro
-            - caddy_config:/config
-            - caddy_data:/data
-        depends_on:
-            - php
-
-    php:
-        build: docker/php
-        volumes:
-            - ./:/srv
-        environment:
-            TZ: America/Toronto
-        depends_on:
-            - database
-
     database:
         image: mysql:8.4.3
+        restart: unless-stopped
         ports:
             - "3306:3306"
         volumes:
@@ -38,12 +16,56 @@ services:
             MYSQL_USER: acme
             MYSQL_PASSWORD: acme
             TZ: America/Toronto
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-root}" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        networks:
+            - acme-network
+
+    http:
+        image: caddy:latest
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+            - "443:443/udp"
+        volumes:
+            - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+            - ./docker/ssl:/etc/ssl:ro
+            - ./public:/srv:ro
+            - caddy_config:/config
+            - caddy_data:/data
+        depends_on:
+            - php
+        networks:
+            - acme-network
+
+    php:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        restart: unless-stopped
+        volumes:
+            - ./:/srv
+        environment:
+            TZ: America/Toronto
+        depends_on:
+            database:
+                condition: service_healthy
+        networks:
+            - acme-network
 
     redis:
         image: redis
+        restart: unless-stopped
+        networks:
+            - acme-network
 
     worker:
         build: docker/php
+        restart: unless-stopped
         volumes:
             - ./:/srv
         environment:
@@ -52,9 +74,18 @@ services:
             - database
             - redis
         command: php /srv/bin/console messenger:consume -vv
+        networks:
+            - acme-network
 
 volumes:
 
     caddy_config:
+        driver: local
     caddy_data:
+        driver: local
     mysql_data:
+        driver: local
+
+networks:
+    acme-network:
+        driver: bridge
