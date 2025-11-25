@@ -9,4 +9,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 RUN install-php-extensions apcu gd intl mbstring opcache pdo pdo_mysql pcov redis zip
 
+RUN git config --global --add safe.directory /srv
+
 WORKDIR "/srv"
