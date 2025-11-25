@@ -55,5 +55,12 @@ pipelines:
                         caches:
                             - composer
                         script:
+                            # Wait for MySQL service to be ready (Bitbucket doesn't wait for service health)
+                            # Use bash's /dev/tcp to avoid depending on mysql-client/netcat availability
+                            - >-
+                                for i in {1..60}; do
+                                  (echo > /dev/tcp/127.0.0.1/3306) >/dev/null 2>&1 && echo "MySQL is up" && break;
+                                  echo "Waiting for MySQL... ($i/60)"; sleep 1;
+                                done
                             - echo 'DATABASE_URL=mysql://root:root@127.0.0.1:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
                             - vendor/bin/phpunit --coverage-text
