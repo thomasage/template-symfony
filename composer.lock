@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9bb490d7765d901969ebd7663437cda",
+    "content-hash": "b45571fb917b26972a150d99206891e7",
     "packages": [
         {
             "name": "babdev/pagerfanta-bundle",
@@ -1458,26 +1458,26 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "6.0.9",
+            "version": "6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "21e888e8597440b2205e2e5c484b6c8e556bcd1a"
+                "reference": "5a74873ba8873ddcc557d22755c914ac899563ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/21e888e8597440b2205e2e5c484b6c8e556bcd1a",
-                "reference": "21e888e8597440b2205e2e5c484b6c8e556bcd1a",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/5a74873ba8873ddcc557d22755c914ac899563ae",
+                "reference": "5a74873ba8873ddcc557d22755c914ac899563ae",
                 "shasum": ""
             },
             "require": {
                 "bacon/bacon-qr-code": "^3.0",
-                "php": "^8.2"
+                "php": "^8.4"
             },
             "require-dev": {
                 "endroid/quality": "dev-main",
                 "ext-gd": "*",
-                "khanamiryan/qrcode-detector-decoder": "^2.0.2",
+                "khanamiryan/qrcode-detector-decoder": "^2.0.3",
                 "setasign/fpdf": "^1.8.2"
             },
             "suggest": {
@@ -1518,7 +1518,7 @@
             ],
             "support": {
                 "issues": "https://github.com/endroid/qr-code/issues",
-                "source": "https://github.com/endroid/qr-code/tree/6.0.9"
+                "source": "https://github.com/endroid/qr-code/tree/6.1.0"
             },
             "funding": [
                 {
@@ -1526,7 +1526,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-13T19:59:45+00:00"
+            "time": "2025-11-25T10:47:45+00:00"
         },
         {
             "name": "pagerfanta/core",
@@ -12627,7 +12627,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.3",
+        "php": ">=8.4",
         "ext-ctype": "*",
         "ext-gd": "*",
         "ext-iconv": "*"

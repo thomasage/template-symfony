@@ -5,7 +5,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.4",
         "ext-ctype": "*",
         "ext-gd": "*",
         "ext-iconv": "*",
@@ -14,7 +14,7 @@
         "doctrine/doctrine-bundle": "^2.18.1",
         "doctrine/doctrine-migrations-bundle": "^3.7.0",
         "doctrine/orm": "^3.5.7",
-        "endroid/qr-code": "^6.0.9",
+        "endroid/qr-code": "^6.1.0",
         "pagerfanta/doctrine-orm-adapter": "^4.7.2",
         "pagerfanta/twig": "^4.7.2",
         "scheb/2fa-bundle": "^7.12",
