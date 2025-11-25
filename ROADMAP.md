@@ -5,5 +5,6 @@
 * Switch config from YAML => PHP
 * Configure Vault
 * Add mutation testing
-* Add reset password
+* Add a reset password
 * Add Tailwind
+* Upgrade to Doctrine ORM 3.0
