@@ -20,7 +20,6 @@ final class UserTest extends TestCase
             ->setLastLoginAt()
             ->setPassword('test')
             ->setRoles(['ROLE_GUEST']);
-        $user->eraseCredentials();
 
         self::assertNotNull($user->getLastLoginAt());
         self::assertNull($user->getId());
