@@ -48,7 +48,7 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
             ->getQuery();
 
         /** @var Pagerfanta<User> $pagerFanta */
-        $pagerFanta = (new Pagerfanta(new QueryAdapter($query)))
+        $pagerFanta = new Pagerfanta(new QueryAdapter($query))
             ->setMaxPerPage($maxPerPage)
             ->setCurrentPage($page);
 

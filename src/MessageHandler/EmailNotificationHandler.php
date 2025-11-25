@@ -16,7 +16,7 @@ final readonly class EmailNotificationHandler
 
     public function __invoke(EmailNotification $message): void
     {
-        $email = (new Email())
+        $email = new Email()
             ->from('hello@example.com')
             ->to('you@example.com')
             ->subject('Time for Symfony Mailer!')
