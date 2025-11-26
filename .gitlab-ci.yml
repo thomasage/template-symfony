@@ -51,7 +51,7 @@ phpunit:
         - apt-get update && apt-get install -y git unzip
         - curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o /usr/local/bin/install-php-extensions
         - chmod +x /usr/local/bin/install-php-extensions
-        - install-php-extensions pcov
+        - install-php-extensions pcov pdo pdo_mysql
         - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
     script:
         - vendor/bin/phpunit --coverage-text
