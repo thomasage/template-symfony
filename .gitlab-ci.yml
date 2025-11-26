@@ -28,10 +28,6 @@ build:
     script:
         - docker build -t $CI_REGISTRY_IMAGE/php:latest -f docker/php/Dockerfile .
         - docker push $CI_REGISTRY_IMAGE/php:latest
-    only:
-        changes:
-            - docker/php/Dockerfile
-            - composer.lock
 
 .php_base:
     needs:
