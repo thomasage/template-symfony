@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25a2e36d87ee51abd85ade1f43b10805",
+    "content-hash": "62e7f65f5b678cc1db0c4bb17b12b311",
     "packages": [
         {
             "name": "babdev/pagerfanta-bundle",
@@ -1983,16 +1983,16 @@
         },
         {
             "name": "scheb/2fa-bundle",
-            "version": "v7.12.0",
+            "version": "v7.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-bundle.git",
-                "reference": "7a8e6f87f91414e655d951ae774cb6398f25c2c1"
+                "reference": "2056c313e4ceff8098f970d99d428ddd2a3bfbf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/7a8e6f87f91414e655d951ae774cb6398f25c2c1",
-                "reference": "7a8e6f87f91414e655d951ae774cb6398f25c2c1",
+                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/2056c313e4ceff8098f970d99d428ddd2a3bfbf5",
+                "reference": "2056c313e4ceff8098f970d99d428ddd2a3bfbf5",
                 "shasum": ""
             },
             "require": {
@@ -2045,13 +2045,13 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-bundle/tree/v7.12.0"
+                "source": "https://github.com/scheb/2fa-bundle/tree/v7.12.1"
             },
-            "time": "2025-11-20T13:35:24+00:00"
+            "time": "2025-11-25T15:24:27+00:00"
         },
         {
             "name": "scheb/2fa-email",
-            "version": "v7.12.0",
+            "version": "v7.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-email.git",
@@ -2097,13 +2097,13 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-email/tree/v7.12.0"
+                "source": "https://github.com/scheb/2fa-email/tree/v7.12.1"
             },
             "time": "2025-11-20T13:35:24+00:00"
         },
         {
             "name": "scheb/2fa-totp",
-            "version": "v7.12.0",
+            "version": "v7.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-totp.git",
@@ -2147,7 +2147,7 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-totp/tree/v7.12.0"
+                "source": "https://github.com/scheb/2fa-totp/tree/v7.12.1"
             },
             "time": "2025-11-20T13:35:24+00:00"
         },
