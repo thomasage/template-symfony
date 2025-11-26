@@ -1,6 +1,9 @@
 variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
 
+.copy_vendor: &copy_vendor
+    - cp -r /opt/app/vendor .
+
 stages:
     - build
     - test
@@ -19,12 +22,14 @@ build_image:
 php_cs_fixer:
     stage: test
     image: $IMAGE_TAG
+    before_script: *copy_vendor
     script:
         - vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --show-progress=none
 
 phpstan:
     stage: test
     image: $IMAGE_TAG
+    before_script: *copy_vendor
     script:
         - bin/console cache:clear --env=dev
         - vendor/bin/phpstan --memory-limit=1G --no-progress
@@ -42,6 +47,7 @@ phpunit:
         MYSQL_PASSWORD: test
         MYSQL_ROOT_PASSWORD: root
     before_script:
+        - cp -r /opt/app/vendor .
         - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
     script:
         - vendor/bin/phpunit --coverage-text
@@ -49,11 +55,13 @@ phpunit:
 rector:
     stage: test
     image: $IMAGE_TAG
+    before_script: *copy_vendor
     script:
         - vendor/bin/rector --dry-run --no-progress-bar
 
 twig_cs_fixer:
     stage: test
     image: $IMAGE_TAG
+    before_script: *copy_vendor
     script:
         - vendor/bin/twig-cs-fixer lint templates

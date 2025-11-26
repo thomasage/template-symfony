@@ -9,12 +9,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 RUN install-php-extensions apcu gd intl mbstring opcache pdo pdo_mysql pcov redis zip
 
-WORKDIR /builds
-
+# Install dependencies in a separate location to preserve them during CI checkout
+WORKDIR /opt/app
 COPY composer.json composer.lock symfony.lock ./
+RUN composer install --no-progress --prefer-dist --optimize-autoloader
 
-RUN composer install --no-progress --prefer-dist --optimize-autoloader --no-scripts --no-autoloader
-
-COPY . .
-
-RUN composer dump-autoload --optimize --classmap-authoritative
+# Reset to root for GitLab CI
+WORKDIR /builds
