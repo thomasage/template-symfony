@@ -57,6 +57,14 @@ phpstan:
 phpunit:
     extends: .php_base
     stage: test
+    services:
+        - name: mysql:8.4
+          alias: database
+    variables:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: acme_test
+        MYSQL_USER: acme
+        MYSQL_PASSWORD: acme
     script:
         - composer qa:phpunit
     coverage: '/^\s*Lines:\s*\d+.\d+\%/'
