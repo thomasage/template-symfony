@@ -16,7 +16,7 @@ return static function (
     assert($profiler instanceof ProfilerConfig);
 
     if ('dev' === $container->env()) {
-        $webProfiler->toolbar(true);
+        $webProfiler->toolbar([]);
         $profiler->collectSerializerData(true);
     }
 
