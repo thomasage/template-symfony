@@ -28,7 +28,7 @@ php_cs_fixer:
 
 phpstan:
     stage: test
-    image: thomasagedev/template-symfony:1.0.1
+    image: php:8.4.15-fpm-bookworm
     script:
         - bin/console cache:clear --env=dev
         - vendor/bin/phpstan --memory-limit=1G --no-progress
@@ -37,7 +37,7 @@ phpstan:
 
 phpunit:
     stage: test
-    image: thomasagedev/template-symfony:1.0.1
+    image: php:8.4.15-fpm-bookworm
     services:
         -   name: mysql:8.4.3
             alias: mysql
@@ -56,7 +56,7 @@ phpunit:
 
 rector:
     stage: test
-    image: thomasagedev/template-symfony:1.0.1
+    image: php:8.4.15-fpm-bookworm
     script:
         - vendor/bin/rector --dry-run --no-progress-bar
     dependencies:
@@ -64,7 +64,7 @@ rector:
 
 twig_cs_fixer:
     stage: test
-    image: thomasagedev/template-symfony:1.0.1
+    image: php:8.4.15-fpm-bookworm
     script:
         - vendor/bin/twig-cs-fixer lint templates
     dependencies:
