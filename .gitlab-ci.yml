@@ -1,4 +1,5 @@
 stages:
+    - build
     - qa
     - test
 
@@ -13,17 +14,27 @@ cache:
         - .composer-cache/
         - vendor/
 
-.php_base:
-    image: php:8.4-cli
+image:
+    name: $CI_REGISTRY_IMAGE/php:latest
+    pull_policy: if-not-present
+
+build:
+    stage: build
+    image: docker:latest
+    services:
+        - docker:dind
     before_script:
-        - apt-get update -yqq
-        - apt-get install -yqq git unzip
-        - curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions
-        - chmod +x /usr/local/bin/install-php-extensions
-        - install-php-extensions apcu gd intl mbstring opcache pdo pdo_mysql pcov redis zip
-        - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-        - php -r "unlink('composer-setup.php');"
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    script:
+        - docker build -t $CI_REGISTRY_IMAGE/php:latest -f docker/php/Dockerfile .
+        - docker push $CI_REGISTRY_IMAGE/php:latest
+    only:
+        changes:
+            - docker/php/Dockerfile
+            - composer.lock
+
+.php_base:
+    before_script:
         - composer install --no-interaction --prefer-dist --optimize-autoloader
 
 cs-fixer:
