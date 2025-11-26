@@ -7,9 +7,12 @@ install_dependencies:
     image: php:8.4.15-fpm-bookworm
     before_script:
         - apt-get update && apt-get install -y git unzip
+        - curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o /usr/local/bin/install-php-extensions
+        - chmod +x /usr/local/bin/install-php-kextensions
+        - install-php-extensions gd redis
         - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     script:
-        - composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+        - composer install --no-progress --prefer-dist --optimize-autoloader
     artifacts:
         paths:
             - vendor/
@@ -23,46 +26,46 @@ php_cs_fixer:
     dependencies:
         - install_dependencies
 
-#phpstan:
-#    stage: test
-#    image: thomasagedev/template-symfony:1.0.1
-#    script:
-#        - bin/console cache:clear --env=dev
-#        - vendor/bin/phpstan --memory-limit=1G --no-progress
-#    dependencies:
-#        - install_dependencies
-#
-#phpunit:
-#    stage: test
-#    image: thomasagedev/template-symfony:1.0.1
-#    services:
-#        -   name: mysql:8.4.3
-#            alias: mysql
-#    variables:
-#        MYSQL_HOST: mysql
-#        MYSQL_DATABASE: test
-#        MYSQL_USER: test
-#        MYSQL_PASSWORD: test
-#        MYSQL_ROOT_PASSWORD: root
-#    before_script:
-#        - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
-#    script:
-#        - vendor/bin/phpunit --coverage-text
-#    dependencies:
-#        - install_dependencies
-#
-#rector:
-#    stage: test
-#    image: thomasagedev/template-symfony:1.0.1
-#    script:
-#        - vendor/bin/rector --dry-run --no-progress-bar
-#    dependencies:
-#        - install_dependencies
-#
-#twig_cs_fixer:
-#    stage: test
-#    image: thomasagedev/template-symfony:1.0.1
-#    script:
-#        - vendor/bin/twig-cs-fixer lint templates
-#    dependencies:
-#        - install_dependencies
+phpstan:
+    stage: test
+    image: thomasagedev/template-symfony:1.0.1
+    script:
+        - bin/console cache:clear --env=dev
+        - vendor/bin/phpstan --memory-limit=1G --no-progress
+    dependencies:
+        - install_dependencies
+
+phpunit:
+    stage: test
+    image: thomasagedev/template-symfony:1.0.1
+    services:
+        -   name: mysql:8.4.3
+            alias: mysql
+    variables:
+        MYSQL_HOST: mysql
+        MYSQL_DATABASE: test
+        MYSQL_USER: test
+        MYSQL_PASSWORD: test
+        MYSQL_ROOT_PASSWORD: root
+    before_script:
+        - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
+    script:
+        - vendor/bin/phpunit --coverage-text
+    dependencies:
+        - install_dependencies
+
+rector:
+    stage: test
+    image: thomasagedev/template-symfony:1.0.1
+    script:
+        - vendor/bin/rector --dry-run --no-progress-bar
+    dependencies:
+        - install_dependencies
+
+twig_cs_fixer:
+    stage: test
+    image: thomasagedev/template-symfony:1.0.1
+    script:
+        - vendor/bin/twig-cs-fixer lint templates
+    dependencies:
+        - install_dependencies
