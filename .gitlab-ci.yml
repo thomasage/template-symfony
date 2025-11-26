@@ -1,43 +1,37 @@
+variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+
 stages:
-    - setup
+    - build
     - test
 
-install_dependencies:
-    stage: setup
-    image: php:8.4.15-fpm-bookworm
+build_image:
+    stage: build
+    image: docker:24
+    services:
+        - docker:24-dind
     before_script:
-        - apt-get update && apt-get install -y git unzip
-        - curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o /usr/local/bin/install-php-extensions
-        - chmod +x /usr/local/bin/install-php-extensions
-        - install-php-extensions gd redis
-        - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     script:
-        - composer install --no-progress --prefer-dist --optimize-autoloader
-    artifacts:
-        paths:
-            - vendor/
-        expire_in: 1h
+        - docker build -f docker/php/ci/Dockerfile -t $IMAGE_TAG .
+        - docker push $IMAGE_TAG
 
 php_cs_fixer:
     stage: test
-    image: php:8.4.15-fpm-bookworm
+    image: $IMAGE_TAG
     script:
         - vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --show-progress=none
-    dependencies:
-        - install_dependencies
 
 phpstan:
     stage: test
-    image: php:8.4.15-fpm-bookworm
+    image: $IMAGE_TAG
     script:
         - bin/console cache:clear --env=dev
         - vendor/bin/phpstan --memory-limit=1G --no-progress
-    dependencies:
-        - install_dependencies
 
 phpunit:
     stage: test
-    image: php:8.4.15-fpm-bookworm
+    image: $IMAGE_TAG
     services:
         -   name: mysql:8.4.3
             alias: mysql
@@ -48,28 +42,18 @@ phpunit:
         MYSQL_PASSWORD: test
         MYSQL_ROOT_PASSWORD: root
     before_script:
-        - apt-get update && apt-get install -y git unzip
-        - curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o /usr/local/bin/install-php-extensions
-        - chmod +x /usr/local/bin/install-php-extensions
-        - install-php-extensions pcov pdo pdo_mysql
         - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
     script:
         - vendor/bin/phpunit --coverage-text
-    dependencies:
-        - install_dependencies
 
 rector:
     stage: test
-    image: php:8.4.15-fpm-bookworm
+    image: $IMAGE_TAG
     script:
         - vendor/bin/rector --dry-run --no-progress-bar
-    dependencies:
-        - install_dependencies
 
 twig_cs_fixer:
     stage: test
-    image: php:8.4.15-fpm-bookworm
+    image: $IMAGE_TAG
     script:
         - vendor/bin/twig-cs-fixer lint templates
-    dependencies:
-        - install_dependencies
