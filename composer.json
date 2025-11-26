@@ -11,7 +11,7 @@
         "ext-iconv": "*",
         "babdev/pagerfanta-bundle": "^4.5",
         "doctrine/dbal": "^4.3.4",
-        "doctrine/doctrine-bundle": "^2.18.1",
+        "doctrine/doctrine-bundle": "^3.0.0",
         "doctrine/doctrine-migrations-bundle": "^3.7.0",
         "doctrine/orm": "^3.5.7",
         "endroid/qr-code": "^6.1.0",
