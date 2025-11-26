@@ -61,10 +61,13 @@ phpunit:
         - name: mysql:8.4
           alias: database
     variables:
+        MYSQL_HOST: mysql
+        MYSQL_DATABASE: test
+        MYSQL_USER: test
+        MYSQL_PASSWORD: test
         MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: acme_test
-        MYSQL_USER: acme
-        MYSQL_PASSWORD: acme
+    before_script:
+        - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
     script:
         - composer qa:phpunit
     coverage: '/^\s*Lines:\s*\d+.\d+\%/'
