@@ -24,6 +24,7 @@ parameters:
                 - Symfony\Component\Form\Test\TypeTestCase
                 - Symfony\Component\HttpKernel\Kernel
                 - Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory
+                - Zenstruck\Foundry\Story
         noNamedArgument:
             enabled: false
         noNullableReturnTypeDeclaration:

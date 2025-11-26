@@ -46,6 +46,7 @@
         <exclude>
             <directory>src/DataFixtures</directory>
             <directory>src/Factory</directory>
+            <directory>src/Story</directory>
         </exclude>
     </source>
     <coverage>
@@ -54,6 +55,7 @@
         </report>
     </coverage>
     <extensions>
+        <bootstrap class="Zenstruck\Foundry\PHPUnit\FoundryExtension" />
         <bootstrap class="Zenstruck\Browser\Test\BrowserExtension"/>
     </extensions>
 </phpunit>
