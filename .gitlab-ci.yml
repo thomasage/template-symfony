@@ -16,7 +16,7 @@ cache:
 
 image:
     name: $CI_REGISTRY_IMAGE/php:latest
-    pull_policy: if-not-present
+    pull_policy: always
 
 build:
     stage: build
@@ -34,6 +34,9 @@ build:
             - composer.lock
 
 .php_base:
+    needs:
+        - job: build
+          optional: true
     before_script:
         - composer install --no-interaction --prefer-dist --optimize-autoloader
 
