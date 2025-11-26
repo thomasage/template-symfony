@@ -9,9 +9,8 @@ use Symfony\Config\FrameworkConfig;
 return static function (FrameworkConfig $framework, ContainerConfigurator $container): void {
     $messenger = $framework->messenger();
 
+    /** @var TransportConfig $transport */
     $transport = $messenger->transport('async');
-    assert($transport instanceof TransportConfig);
-
     $transport->dsn('%env(MESSENGER_TRANSPORT_DSN)%');
 
     if ('test' === $container->env()) {

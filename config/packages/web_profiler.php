@@ -12,11 +12,11 @@ return static function (
     WebProfilerConfig $webProfiler,
     ContainerConfigurator $container,
 ): void {
+    /** @var ProfilerConfig $profiler */
     $profiler = $framework->profiler();
-    assert($profiler instanceof ProfilerConfig);
 
     if ('dev' === $container->env()) {
-        $webProfiler->toolbar([]);
+        $webProfiler->toolbar(true);
         $profiler->collectSerializerData(true);
     }
 
