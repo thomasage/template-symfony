@@ -16,19 +16,13 @@ return static function (
     assert($profiler instanceof ProfilerConfig);
 
     if ('dev' === $container->env()) {
-        $webProfiler
-            ->interceptRedirects(false)
-            ->toolbar(true);
-        $profiler
-            ->collectSerializerData(true)
-            ->onlyExceptions(false);
+        $webProfiler->toolbar(true);
+        $profiler->collectSerializerData(true);
     }
 
     if ('test' === $container->env()) {
-        $webProfiler
-            ->interceptRedirects(false)
-            ->toolbar(false);
         $profiler
-            ->collect(false);
+            ->collect(false)
+            ->collectSerializerData(true);
     }
 };
