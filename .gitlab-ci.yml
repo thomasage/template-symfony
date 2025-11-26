@@ -5,6 +5,9 @@ stages:
 install_dependencies:
     stage: setup
     image: php:8.4.15-fpm-bookworm
+    before_script:
+        - apt-get update && apt-get install -y git unzip
+        - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     script:
         - composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
     artifacts:
