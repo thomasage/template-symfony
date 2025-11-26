@@ -7,4 +7,3 @@
 * Add mutation testing
 * Add a reset password
 * Add Tailwind
-* Upgrade to Doctrine ORM 3.0
