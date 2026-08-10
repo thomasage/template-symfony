@@ -1,0 +1,18 @@
+# Usage: docker compose -f compose.yaml -f compose.prod.yaml up -d
+services:
+
+    php:
+        build:
+            target: frankenphp_prod
+        environment:
+            APP_ENV: prod
+            # Serve plain HTTP behind a TLS-terminating proxy (e.g. Traefik)
+            SERVER_NAME: ":80"
+        volumes: !reset []
+
+    worker:
+        build:
+            target: frankenphp_prod
+        environment:
+            APP_ENV: prod
+        volumes: !reset []

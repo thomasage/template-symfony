@@ -1,0 +1,10 @@
+.git
+.idea
+docker/ssl
+var
+vendor
+node_modules
+coverage
+.env.local
+.env.*.local
+docs
