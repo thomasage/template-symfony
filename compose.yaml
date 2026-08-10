@@ -2,6 +2,45 @@ name: acme
 
 services:
 
+    php:
+        build:
+            context: .
+            dockerfile: docker/frankenphp/Dockerfile
+            target: ${DOCKER_TARGET:-frankenphp_dev}
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+            - "443:443/udp"
+        environment:
+            SERVER_NAME: ${SERVER_NAME:-acme.localhost}
+            TZ: America/Toronto
+        depends_on:
+            database:
+                condition: service_healthy
+        networks:
+            - acme-network
+
+    worker:
+        build:
+            context: .
+            dockerfile: docker/frankenphp/Dockerfile
+            target: ${DOCKER_TARGET:-frankenphp_dev}
+        restart: unless-stopped
+        environment:
+            TZ: America/Toronto
+        depends_on:
+            database:
+                condition: service_healthy
+            redis:
+                condition: service_started
+        command: php bin/console messenger:consume -vv
+        # The messenger consumer does not serve HTTP, so the image's HTTP healthcheck does not apply
+        healthcheck:
+            disable: true
+        networks:
+            - acme-network
+
     database:
         image: mysql:8.4.3
         restart: unless-stopped
@@ -24,65 +63,13 @@ services:
         networks:
             - acme-network
 
-    http:
-        image: caddy:latest
-        restart: unless-stopped
-        ports:
-            - "80:80"
-            - "443:443"
-            - "443:443/udp"
-        volumes:
-            - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-            - ./docker/ssl:/etc/ssl:ro
-            - ./public:/srv:ro
-            - caddy_config:/config
-            - caddy_data:/data
-        depends_on:
-            - php
-        networks:
-            - acme-network
-
-    php:
-        build:
-            context: .
-            dockerfile: docker/php/Dockerfile
-        restart: unless-stopped
-        volumes:
-            - ./:/srv
-        environment:
-            TZ: America/Toronto
-        depends_on:
-            database:
-                condition: service_healthy
-        networks:
-            - acme-network
-
     redis:
         image: redis
         restart: unless-stopped
         networks:
             - acme-network
 
-    worker:
-        build: docker/php
-        restart: unless-stopped
-        volumes:
-            - ./:/srv
-        environment:
-            TZ: America/Toronto
-        depends_on:
-            - database
-            - redis
-        command: php /srv/bin/console messenger:consume -vv
-        networks:
-            - acme-network
-
 volumes:
-
-    caddy_config:
-        driver: local
-    caddy_data:
-        driver: local
     mysql_data:
         driver: local
 

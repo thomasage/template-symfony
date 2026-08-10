@@ -1,12 +1,36 @@
-
 services:
+
+    php:
+        environment:
+            APP_ENV: dev
+            SERVER_NAME: acme.localhost
+            # Reload workers when source/config/templates change (no var/ to avoid cache loops)
+            FRANKENPHP_WORKER_EXTRA: |
+                watch /app/src
+                watch /app/config
+                watch /app/templates
+            CADDY_SERVER_EXTRA_DIRECTIVES: tls /etc/ssl/certificate.pem /etc/ssl/certificate-key.pem
+            MAILER_DSN: smtp://mailer:1025
+        volumes:
+            - ./:/app
+            - ./docker/ssl:/etc/ssl:ro
+
+    worker:
+        environment:
+            APP_ENV: dev
+            MAILER_DSN: smtp://mailer:1025
+        volumes:
+            - ./:/app
+
 ###> symfony/mailer ###
-  mailer:
-    image: axllent/mailpit
-    ports:
-      - "1025"
-      - "8025:8025"
-    environment:
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    mailer:
+        image: axllent/mailpit
+        ports:
+            - "1025"
+            - "8025:8025"
+        environment:
+            MP_SMTP_AUTH_ACCEPT_ANY: 1
+            MP_SMTP_AUTH_ALLOW_INSECURE: 1
+        networks:
+            - acme-network
 ###< symfony/mailer ###

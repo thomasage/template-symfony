@@ -16,11 +16,8 @@ install:
 	@mv "acme.localhost-key.pem" docker/ssl/certificate-key.pem
 	@docker compose build
 
-set_permissions:
-	@docker compose exec php chown -R www-data:www-data /srv/var
-
 # Start the containers
-start: start_containers set_permissions
+start: start_containers
 
 start_containers: compose.yaml
 	@docker compose up -d --remove-orphans
