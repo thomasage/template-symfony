@@ -20,4 +20,7 @@ return (new Config())
             'import_classes' => true,
         ],
         'ordered_interfaces' => true,
+        // php-cs-fixer <=3.95 corrupts declare(strict_types=1) under PHP 8.5
+        // (interaction with blank_line_after_opening_tag). Disable until fixed upstream.
+        'declare_strict_types' => false,
     ]);

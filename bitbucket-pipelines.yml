@@ -1,0 +1,124 @@
+image: atlassian/default-image:latest
+
+definitions:
+  services:
+    mysql:
+      image: mysql:8.4
+      variables:
+        MYSQL_DATABASE: test
+        MYSQL_USER: test
+        MYSQL_PASSWORD: test
+        MYSQL_ROOT_PASSWORD: root
+
+  caches:
+    composer: .composer-cache
+    vendor: vendor
+
+  steps:
+    - step: &build-docker-image
+        name: Build Docker Image
+        image: docker:latest
+        services:
+          - docker
+        script:
+          - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY
+          - docker build -t $DOCKER_REGISTRY/php:latest -f docker/frankenphp/Dockerfile --target frankenphp_dev .
+          - docker push $DOCKER_REGISTRY/php:latest
+
+    - step: &composer-install
+        name: Composer Install
+        image: $DOCKER_REGISTRY/php:latest
+        caches:
+          - composer
+          - vendor
+        script:
+          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+          - composer install --no-interaction --prefer-dist --optimize-autoloader
+
+    - step: &cs-fixer
+        name: CS Fixer
+        image: $DOCKER_REGISTRY/php:latest
+        caches:
+          - composer
+          - vendor
+        script:
+          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - composer qa:cs-fix
+
+    - step: &rector
+        name: Rector
+        image: $DOCKER_REGISTRY/php:latest
+        caches:
+          - composer
+          - vendor
+        script:
+          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - composer qa:rector
+
+    - step: &phpstan
+        name: PHPStan
+        image: $DOCKER_REGISTRY/php:latest
+        caches:
+          - composer
+          - vendor
+        script:
+          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - composer qa:phpstan
+
+    - step: &twig-fixer
+        name: Twig Fixer
+        image: $DOCKER_REGISTRY/php:latest
+        caches:
+          - composer
+          - vendor
+        script:
+          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - composer qa:twig-fix
+
+    - step: &phpunit
+        name: PHPUnit
+        image: $DOCKER_REGISTRY/php:latest
+        services:
+          - mysql
+        caches:
+          - composer
+          - vendor
+        script:
+          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - echo 'DATABASE_URL=mysql://root:root@127.0.0.1:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
+          - composer qa:phpunit
+
+pipelines:
+  default:
+    - step: *build-docker-image
+    - parallel:
+        - step: *cs-fixer
+        - step: *rector
+        - step: *phpstan
+        - step: *twig-fixer
+    - step: *phpunit
+
+  pull-requests:
+    '**':
+      - step: *build-docker-image
+      - parallel:
+          - step: *cs-fixer
+          - step: *rector
+          - step: *phpstan
+          - step: *twig-fixer
+      - step: *phpunit
+
+  branches:
+    main:
+      - step: *build-docker-image
+      - parallel:
+          - step: *cs-fixer
+          - step: *rector
+          - step: *phpstan
+          - step: *twig-fixer
+      - step: *phpunit

@@ -1,0 +1,21 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		worker {
+			file ./public/index.php
+			# Extra worker options per environment (e.g. `watch` in dev)
+			{$FRANKENPHP_WORKER_EXTRA}
+		}
+	}
+}
+
+{$SERVER_NAME:localhost} {
+	root public/
+	encode zstd gzip
+
+	# Per-environment extra directives (e.g. `tls` with mkcert certs in dev)
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	php_server
+}
