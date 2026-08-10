@@ -18,12 +18,22 @@ env:
 
 jobs:
     qa:
-        name: ${{ matrix.task }}
+        name: ${{ matrix.name }}
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
-                task: [rector, cs-fix, twig-fix, phpstan]
+                include:
+                    # Check-only commands: they report violations and fail the build
+                    # instead of auto-fixing (unlike the composer qa:* fix scripts).
+                    - name: rector
+                      run: vendor/bin/rector --dry-run
+                    - name: cs-fixer
+                      run: vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff
+                    - name: twig
+                      run: vendor/bin/twig-cs-fixer lint templates
+                    - name: phpstan
+                      run: vendor/bin/phpstan --memory-limit=1G
         steps:
             - uses: actions/checkout@v4
 
@@ -49,8 +59,8 @@ jobs:
             - name: Install dependencies
               run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-            - name: Run ${{ matrix.task }}
-              run: composer qa:${{ matrix.task }}
+            - name: Run ${{ matrix.name }}
+              run: ${{ matrix.run }}
 
     phpunit:
         name: phpunit
