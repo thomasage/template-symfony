@@ -1,0 +1,2 @@
+CREATE DATABASE acme_test;
+GRANT ALL PRIVILEGES ON DATABASE acme_test TO acme;

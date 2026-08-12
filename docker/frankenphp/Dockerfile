@@ -24,7 +24,7 @@ RUN set -eux; \
 		intl \
 		mbstring \
 		opcache \
-		pdo_mysql \
+		pdo_pgsql \
 		redis \
 		zip \
 	;

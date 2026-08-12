@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: console composer install qa restart start start_containers stop
+.PHONY: console composer db_reset install qa restart start start_containers stop
 
 # Show this help
 help:
@@ -45,6 +45,13 @@ composer:
 # Example: `make console run="cache:clear"`
 console:
 	@docker compose exec php bin/console $(run)
+
+# Reset the database
+db_reset:
+	@printf "This will drop the whole database and reload fixtures. Continue? [y/N] " && read answer && { [ "$$answer" = "y" ] || [ "$$answer" = "Y" ]; } || exit 1
+	@docker compose exec php bin/console doctrine:schema:drop --force --full-database
+	@docker compose exec php bin/console doctrine:migrations:migrate --no-interaction
+	@docker compose exec php bin/console foundry:load-fixtures -n
 
 # Run a PHP script
 # Example: `make php run="vendor/bin/phpunit"`
