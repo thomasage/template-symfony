@@ -1,4 +1,6 @@
-image: thecodingmachine/php:8.5-v5-cli
+image:
+  name: thecodingmachine/php:8.5-v5-cli
+  run-as-user: 0
 
 definitions:
   services:
