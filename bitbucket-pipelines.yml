@@ -1,4 +1,4 @@
-image: php:8.5-cli
+image: thecodingmachine/php:8.5-v5-cli
 
 definitions:
   services:
@@ -22,10 +22,7 @@ definitions:
         script:
           - &setup |
             set -e
-            curl -sSLf https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o /usr/local/bin/install-php-extensions
-            chmod +x /usr/local/bin/install-php-extensions
-            install-php-extensions gd intl mbstring apcu opcache pdo_pgsql redis zip pcov
-            curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            PHP_EXTENSION_INTL=1 PHP_EXTENSION_GD=1 PHP_EXTENSION_PDO_PGSQL=1 PHP_EXTENSION_PCOV=1 php /usr/local/bin/setup_extensions.php
             export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
             export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-interaction --prefer-dist --optimize-autoloader
