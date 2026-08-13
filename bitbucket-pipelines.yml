@@ -1,4 +1,4 @@
-image: atlassian/default-image:latest
+image: php:8.5-cli
 
 definitions:
   services:
@@ -14,90 +14,63 @@ definitions:
     vendor: vendor
 
   steps:
-    - step: &build-docker-image
-        name: Build Docker Image
-        image: docker:latest
-        services:
-          - docker
-        script:
-          - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY
-          - docker build -t $DOCKER_REGISTRY/php:latest -f docker/frankenphp/Dockerfile --target frankenphp_dev .
-          - docker push $DOCKER_REGISTRY/php:latest
-
-    - step: &composer-install
-        name: Composer Install
-        image: &php-image
-          name: $DOCKER_REGISTRY/php:latest
-          username: $DOCKER_REGISTRY_USER
-          password: $DOCKER_REGISTRY_PASSWORD
-        caches:
-          - composer
-          - vendor
-        script:
-          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
-          - composer install --no-interaction --prefer-dist --optimize-autoloader
-
     - step: &cs-fixer
         name: CS Fixer
-        image: *php-image
         caches:
           - composer
           - vendor
         script:
-          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
-          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - &setup |
+            set -e
+            curl -sSLf https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o /usr/local/bin/install-php-extensions
+            chmod +x /usr/local/bin/install-php-extensions
+            install-php-extensions gd intl mbstring apcu opcache pdo_pgsql redis zip pcov
+            curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+            composer install --no-interaction --prefer-dist --optimize-autoloader
           - composer qa:cs-fix
 
     - step: &rector
         name: Rector
-        image: *php-image
         caches:
           - composer
           - vendor
         script:
-          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
-          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - *setup
           - composer qa:rector
 
     - step: &phpstan
         name: PHPStan
-        image: *php-image
         caches:
           - composer
           - vendor
         script:
-          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
-          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - *setup
           - composer qa:phpstan
 
     - step: &twig-fixer
         name: Twig Fixer
-        image: *php-image
         caches:
           - composer
           - vendor
         script:
-          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
-          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - *setup
           - composer qa:twig-fix
 
     - step: &phpunit
         name: PHPUnit
-        image: *php-image
         services:
           - postgres
         caches:
           - composer
           - vendor
         script:
-          - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
-          - composer install --no-interaction --prefer-dist --optimize-autoloader
+          - *setup
           - echo 'DATABASE_URL=postgresql://test:test@127.0.0.1:5432/test?serverVersion=18&charset=utf8' >> .env.test
           - composer qa:phpunit
 
 pipelines:
   default:
-    - step: *build-docker-image
     - parallel:
         - step: *cs-fixer
         - step: *rector
@@ -107,7 +80,6 @@ pipelines:
 
   pull-requests:
     '**':
-      - step: *build-docker-image
       - parallel:
           - step: *cs-fixer
           - step: *rector
@@ -117,7 +89,6 @@ pipelines:
 
   branches:
     main:
-      - step: *build-docker-image
       - parallel:
           - step: *cs-fixer
           - step: *rector
