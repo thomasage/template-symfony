@@ -58,16 +58,14 @@ phpunit:
     extends: .php_base
     stage: test
     services:
-        - name: mysql:8.4
+        - name: postgres:18
           alias: database
     variables:
-        MYSQL_HOST: mysql
-        MYSQL_DATABASE: test
-        MYSQL_USER: test
-        MYSQL_PASSWORD: test
-        MYSQL_ROOT_PASSWORD: root
+        POSTGRES_DB: test
+        POSTGRES_USER: test
+        POSTGRES_PASSWORD: test
     before_script:
-        - echo 'DATABASE_URL=mysql://root:root@mysql:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
+        - echo 'DATABASE_URL=postgresql://test:test@database:5432/test?serverVersion=18&charset=utf8' >> .env.test
     script:
         - composer qa:phpunit
 

@@ -2,13 +2,12 @@ image: atlassian/default-image:latest
 
 definitions:
   services:
-    mysql:
-      image: mysql:8.4
+    postgres:
+      image: postgres:18
       variables:
-        MYSQL_DATABASE: test
-        MYSQL_USER: test
-        MYSQL_PASSWORD: test
-        MYSQL_ROOT_PASSWORD: root
+        POSTGRES_DB: test
+        POSTGRES_USER: test
+        POSTGRES_PASSWORD: test
 
   caches:
     composer: .composer-cache
@@ -83,14 +82,14 @@ definitions:
         name: PHPUnit
         image: $DOCKER_REGISTRY/php:latest
         services:
-          - mysql
+          - postgres
         caches:
           - composer
           - vendor
         script:
           - export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
           - composer install --no-interaction --prefer-dist --optimize-autoloader
-          - echo 'DATABASE_URL=mysql://root:root@127.0.0.1:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
+          - echo 'DATABASE_URL=postgresql://test:test@127.0.0.1:5432/test?serverVersion=18&charset=utf8' >> .env.test
           - composer qa:phpunit
 
 pipelines:

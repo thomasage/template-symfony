@@ -14,7 +14,7 @@ concurrency:
 
 env:
     PHP_VERSION: "8.5"
-    PHP_EXTENSIONS: apcu, gd, intl, mbstring, opcache, pdo_mysql, redis, zip
+    PHP_EXTENSIONS: apcu, gd, intl, mbstring, opcache, pdo_pgsql, redis, zip
 
 jobs:
     qa:
@@ -67,16 +67,15 @@ jobs:
         runs-on: ubuntu-latest
         services:
             database:
-                image: mysql:8.4
+                image: postgres:18
                 env:
-                    MYSQL_DATABASE: test
-                    MYSQL_USER: test
-                    MYSQL_PASSWORD: test
-                    MYSQL_ROOT_PASSWORD: root
+                    POSTGRES_DB: test
+                    POSTGRES_USER: test
+                    POSTGRES_PASSWORD: test
                 ports:
-                    - "3306:3306"
+                    - "5432:5432"
                 options: >-
-                    --health-cmd="mysqladmin ping -h localhost -uroot -proot"
+                    --health-cmd="pg_isready -U test -d test"
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
@@ -106,7 +105,7 @@ jobs:
               run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
             - name: Configure test database
-              run: echo 'DATABASE_URL=mysql://root:root@127.0.0.1:3306/test?serverVersion=8.4.3&charset=utf8mb4' >> .env.test
+              run: echo 'DATABASE_URL=postgresql://test:test@127.0.0.1:5432/test?serverVersion=18&charset=utf8' >> .env.test
 
             - name: Run PHPUnit
               run: composer qa:phpunit
