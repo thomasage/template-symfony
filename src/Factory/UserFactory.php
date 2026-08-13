@@ -6,12 +6,12 @@ namespace App\Factory;
 
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<User>
+ * @extends PersistentObjectFactory<User>
  */
-final class UserFactory extends PersistentProxyObjectFactory
+final class UserFactory extends PersistentObjectFactory
 {
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
     {
@@ -28,6 +28,14 @@ final class UserFactory extends PersistentProxyObjectFactory
         return $this->with([
             'roles' => ['ROLE_ADMIN'],
         ]);
+    }
+
+    public function withTotpEnabled(string $secret = 'test'): self
+    {
+        return $this->afterInstantiate(static function (User $user) use ($secret): void {
+            $user->setTwoFactorsAuthenticationTotpSecret($secret);
+            $user->enableTwoFactorsAuthenticationTotp();
+        });
     }
 
     /**

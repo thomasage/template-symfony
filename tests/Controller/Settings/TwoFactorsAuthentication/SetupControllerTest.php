@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller\Settings\TwoFactorsAuthentication;
 
 use App\Controller\Settings\TwoFactorsAuthentication\SetupController;
+use App\Entity\User;
 use App\Factory\UserFactory;
 use App\Tests\Double\FakeTotpAuthenticator;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -35,16 +36,15 @@ final class SetupControllerTest extends KernelTestCase
             ->click('button[type=submit]')
             ->assertOn('/settings/profile');
 
-        self::assertTrue($user->isTotpAuthenticationEnabled());
+        $enabledUser = UserFactory::repository()->find($user->getId());
+        \assert($enabledUser instanceof User);
+
+        self::assertTrue($enabledUser->isTotpAuthenticationEnabled());
     }
 
     public function testShouldRedirectWhenTotpAuthenticationIsAlreadyEnabled(): void
     {
-        $user = UserFactory::new()->create([
-            'twoFactorsAuthenticationTotpSecret' => 'test',
-        ]);
-        $user->enableTwoFactorsAuthenticationTotp();
-        $user->_save();
+        $user = UserFactory::new()->withTotpEnabled()->create();
 
         $this->browser()
             ->actingAs($user)

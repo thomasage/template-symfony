@@ -9,8 +9,7 @@ parameters:
     excludePaths:
         - config/bundles.php
         - config/preload.php
-    scanDirectories:
-        - var/cache/dev/Symfony/Config
+        - config/reference.php
     ergebnis:
         noExtends:
             classesAllowedToBeExtended:
@@ -23,7 +22,7 @@ parameters:
                 - Symfony\Component\Form\AbstractType
                 - Symfony\Component\Form\Test\TypeTestCase
                 - Symfony\Component\HttpKernel\Kernel
-                - Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory
+                - Zenstruck\Foundry\Persistence\PersistentObjectFactory
                 - Zenstruck\Foundry\Story
         noNamedArgument:
             enabled: false

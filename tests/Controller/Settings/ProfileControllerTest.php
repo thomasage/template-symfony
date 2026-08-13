@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller\Settings;
 
 use App\Controller\Settings\ProfileController;
+use App\Entity\User;
 use App\Factory\UserFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -35,6 +36,9 @@ final class ProfileControllerTest extends KernelTestCase
             ->click('button[type=submit]')
             ->assertOn('/settings/profile');
 
-        self::assertSame('test@example.com', $user->getEmail());
+        $updatedUser = UserFactory::repository()->find($user->getId());
+        \assert($updatedUser instanceof User);
+
+        self::assertSame('test@example.com', $updatedUser->getEmail());
     }
 }

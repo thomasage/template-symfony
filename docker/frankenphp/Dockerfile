@@ -6,8 +6,6 @@ WORKDIR /app
 
 VOLUME /app/var/
 
-# The FrankenPHP Symfony runtime is used in every environment (safe for CLI too)
-ENV APP_RUNTIME="Runtime\FrankenPhpSymfony\Runtime"
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
