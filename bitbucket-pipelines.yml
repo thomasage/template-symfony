@@ -27,6 +27,7 @@ definitions:
             install-php-extensions gd intl mbstring apcu opcache pdo_pgsql redis zip pcov
             curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
             export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
+            export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-interaction --prefer-dist --optimize-autoloader
           - composer qa:cs-fix
 
