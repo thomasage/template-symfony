@@ -26,7 +26,10 @@ definitions:
 
     - step: &composer-install
         name: Composer Install
-        image: $DOCKER_REGISTRY/php:latest
+        image: &php-image
+          name: $DOCKER_REGISTRY/php:latest
+          username: $DOCKER_REGISTRY_USER
+          password: $DOCKER_REGISTRY_PASSWORD
         caches:
           - composer
           - vendor
@@ -36,7 +39,7 @@ definitions:
 
     - step: &cs-fixer
         name: CS Fixer
-        image: $DOCKER_REGISTRY/php:latest
+        image: *php-image
         caches:
           - composer
           - vendor
@@ -47,7 +50,7 @@ definitions:
 
     - step: &rector
         name: Rector
-        image: $DOCKER_REGISTRY/php:latest
+        image: *php-image
         caches:
           - composer
           - vendor
@@ -58,7 +61,7 @@ definitions:
 
     - step: &phpstan
         name: PHPStan
-        image: $DOCKER_REGISTRY/php:latest
+        image: *php-image
         caches:
           - composer
           - vendor
@@ -69,7 +72,7 @@ definitions:
 
     - step: &twig-fixer
         name: Twig Fixer
-        image: $DOCKER_REGISTRY/php:latest
+        image: *php-image
         caches:
           - composer
           - vendor
@@ -80,7 +83,7 @@ definitions:
 
     - step: &phpunit
         name: PHPUnit
-        image: $DOCKER_REGISTRY/php:latest
+        image: *php-image
         services:
           - postgres
         caches:
