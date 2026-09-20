@@ -107,5 +107,8 @@ jobs:
             - name: Configure test database
               run: echo 'DATABASE_URL=postgresql://test:test@127.0.0.1:5432/test?serverVersion=18&charset=utf8' >> .env.test
 
+            - name: Build assets
+              run: bin/console tailwind:build
+
             - name: Run PHPUnit
               run: composer qa:phpunit
