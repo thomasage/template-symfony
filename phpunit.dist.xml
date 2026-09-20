@@ -13,6 +13,7 @@
          failOnIncomplete="true"
          failOnNotice="true"
          failOnPhpunitDeprecation="true"
+         failOnPhpunitNotice="true"
          failOnRisky="true"
          failOnSkipped="true"
          failOnWarning="true"

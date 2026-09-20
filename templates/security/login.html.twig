@@ -1,41 +1,74 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ 'actions.sign_in'|trans }} — ACME{% endblock %}
+
 {% block body %}
 
-    <form method="post">
+    <div class="flex min-h-screen items-center justify-center bg-white px-4 dark:bg-gray-950">
+        <div class="w-full max-w-sm">
 
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+            <div class="mb-10 text-center">
+                <span class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">ACME</span>
+            </div>
 
-        <div>
-            <label for="username">{{ 'fields.email'|trans }}</label>
-            <input type="email"
-                   name="_username"
-                   value="{{ last_username }}"
-                   id="username"
-                   autocomplete="email"
-                   required
-                   autofocus>
-        </div>
-        <div>
-            <label for="password">{{ 'fields.password'|trans }}</label>
-            <input type="password"
-                   name="_password"
-                   id="password"
-                   autocomplete="current-password"
-                   required>
-        </div>
-        <div>
-            <input type="checkbox" name="_remember_me" id="_remember_me">
-            <label for="_remember_me">{{ 'fields.remember_me'|trans }}</label>
-        </div>
-        <div>
-            <button type="submit">{{ 'actions.sign_in'|trans }}</button>
-        </div>
+            <form method="post" class="space-y-6">
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                {% if error %}
+                    <div role="alert"
+                         class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950/50 dark:text-red-300">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
 
-    </form>
+                <div>
+                    <label for="username"
+                           class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {{ 'fields.email'|trans }}
+                    </label>
+                    <input type="email"
+                           name="_username"
+                           value="{{ last_username }}"
+                           id="username"
+                           autocomplete="email"
+                           required
+                           autofocus
+                           class="mt-2 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:focus:border-gray-100 dark:focus:ring-gray-100">
+                </div>
+
+                <div>
+                    <label for="password"
+                           class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {{ 'fields.password'|trans }}
+                    </label>
+                    <input type="password"
+                           name="_password"
+                           id="password"
+                           autocomplete="current-password"
+                           required
+                           class="mt-2 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:focus:border-gray-100 dark:focus:ring-gray-100">
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox"
+                           name="_remember_me"
+                           id="_remember_me"
+                           class="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900 dark:border-gray-700 dark:bg-gray-900">
+                    <label for="_remember_me"
+                           class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        {{ 'fields.remember_me'|trans }}
+                    </label>
+                </div>
+
+                <button type="submit"
+                        class="flex w-full justify-center rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-white dark:focus:ring-offset-gray-950">
+                    {{ 'actions.sign_in'|trans }}
+                </button>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            </form>
+
+        </div>
+    </div>
 
 {% endblock %}

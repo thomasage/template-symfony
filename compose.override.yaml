@@ -9,11 +9,11 @@ services:
                 watch /app/src
                 watch /app/config
                 watch /app/templates
-            CADDY_SERVER_EXTRA_DIRECTIVES: tls /etc/ssl/certificate.pem /etc/ssl/certificate-key.pem
+            CADDY_SERVER_EXTRA_DIRECTIVES: tls /etc/caddy/certs/certificate.pem /etc/caddy/certs/certificate-key.pem
             MAILER_DSN: smtp://mailer:1025
         volumes:
             - ./:/app
-            - ./docker/ssl:/etc/ssl:ro
+            - ./docker/ssl:/etc/caddy/certs:ro
 
     worker:
         environment:

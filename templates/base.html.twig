@@ -10,28 +10,83 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body>
-<div>
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
     {% if app.user %}
-        <div>
-            <div>{{ app.user.userIdentifier }}</div>
-            <a href="{{ path('app_home') }}">{{ 'menu.home'|trans }}</a>
-            <a href="{{ path('app_notification') }}">{{ 'actions.send_notification'|trans }}</a>
-            <a href="{{ path('app_settings_profile') }}">{{ 'menu.settings'|trans }}</a>
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('app_user_index') }}">{{ 'menu.admin.user'|trans }}</a>
-            {% endif %}
-            <a href="{{ path('app_logout') }}">{{ 'actions.sign_out'|trans }}</a>
-        </div>
+        <header class="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
+            <nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between px-4 py-3" aria-label="Main">
+
+                <a href="{{ path('app_home') }}"
+                   class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+                    ACME
+                </a>
+
+                <button type="button"
+                        data-mobile-menu-toggle
+                        aria-controls="primary-navigation"
+                        aria-expanded="false"
+                        aria-label="{{ 'menu.toggle'|trans }}"
+                        class="inline-flex items-center justify-center rounded-lg p-2 text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900 md:hidden dark:text-gray-300 dark:hover:bg-gray-800 dark:focus:ring-white">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                    </svg>
+                </button>
+
+                <div id="primary-navigation"
+                     data-mobile-menu-panel
+                     class="hidden w-full flex-col gap-1 pt-3 md:flex md:w-auto md:flex-row md:items-center md:gap-6 md:pt-0">
+
+                    <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-1">
+                        <a href="{{ path('app_home') }}"
+                           class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white dark:focus:ring-white">
+                            {{ 'menu.home'|trans }}
+                        </a>
+                        <a href="{{ path('app_notification') }}"
+                           class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white dark:focus:ring-white">
+                            {{ 'actions.send_notification'|trans }}
+                        </a>
+                        <a href="{{ path('app_settings_profile') }}"
+                           class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white dark:focus:ring-white">
+                            {{ 'menu.settings'|trans }}
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_user_index') }}"
+                               class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white dark:focus:ring-white">
+                                {{ 'menu.admin.user'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="mt-2 flex flex-col gap-2 border-t border-gray-200 pt-3 md:mt-0 md:flex-row md:items-center md:gap-4 md:border-t-0 md:border-l md:border-gray-200 md:pt-0 md:pl-6 dark:border-gray-800 md:dark:border-gray-800">
+                        <span class="px-3 text-sm text-gray-500 md:px-0 dark:text-gray-400">
+                            {{ app.user.userIdentifier }}
+                        </span>
+                        <a href="{{ path('app_logout') }}"
+                           class="rounded-lg border border-gray-300 px-3 py-2 text-center text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 dark:focus:ring-white">
+                            {{ 'actions.sign_out'|trans }}
+                        </a>
+                    </div>
+
+                </div>
+            </nav>
+        </header>
     {% endif %}
+
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="flash-{{ label }}">
-                {{ message }}
+            <div class="mx-auto mt-4 max-w-5xl px-4">
+                <div role="status"
+                     class="rounded-lg px-4 py-3 text-sm
+                            {{ label == 'success'
+                                ? 'bg-green-50 text-green-800 dark:bg-green-950/50 dark:text-green-300'
+                                : 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-300' }}">
+                    {{ message }}
+                </div>
             </div>
         {% endfor %}
     {% endfor %}
+
     {% block body %}{% endblock %}
-</div>
+
 </body>
 </html>

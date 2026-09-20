@@ -1,44 +1,58 @@
 {% extends 'admin/user/base.html.twig' %}
 
-{% block body %}
+{% block content %}
 
-    <h1>{{ 'page_title.user_index'|trans(domain: 'admin') }}</h1>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <h1 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            {{ 'page_title.user_index'|trans(domain: 'admin') }}
+        </h1>
 
-    <div>
-        <a href="{{ path('app_user_add') }}">{{ 'actions.add'|trans }}</a>
+        <a href="{{ path('app_user_add') }}"
+           class="inline-flex rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-white dark:focus:ring-offset-gray-950">
+            {{ 'actions.add'|trans }}
+        </a>
     </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>{{ 'fields.email'|trans }}</th>
-            <th>{{ 'fields.roles'|trans }}</th>
-            <th>{{ 'fields.last_login'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
+    <div class="mt-8 overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-800">
+        <table class="min-w-full divide-y divide-gray-200 text-sm dark:divide-gray-800">
+            <thead class="bg-gray-50 dark:bg-gray-900">
             <tr>
-                <td>
-                    <a href="{{ path('app_user_edit', {uuid: user.uuid}) }}">
-                        {{ user.email }}
-                    </a>
-                </td>
-                <td>
-                    {% for role in user.roles %}
-                        <div>{{ role }}</div>
-                    {% endfor %}
-                </td>
-                <td>{{ user.lastLoginAt is not null ? user.lastLoginAt|format_datetime : '' }}</td>
+                <th scope="col" class="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400">{{ 'fields.email'|trans }}</th>
+                <th scope="col" class="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400">{{ 'fields.roles'|trans }}</th>
+                <th scope="col" class="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400">{{ 'fields.last_login'|trans }}</th>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">{{ 'misc.no_records'|trans }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+            {% for user in users %}
+                <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-900/50">
+                    <td class="px-4 py-3">
+                        <a href="{{ path('app_user_edit', {uuid: user.uuid}) }}"
+                           class="font-medium text-gray-900 underline-offset-2 hover:underline dark:text-white">
+                            {{ user.email }}
+                        </a>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex flex-wrap gap-1">
+                            {% for role in user.roles %}
+                                <span class="rounded-md bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300">{{ role }}</span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-gray-600 dark:text-gray-400">
+                        {{ user.lastLoginAt is not null ? user.lastLoginAt|format_datetime : '' }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">{{ 'misc.no_records'|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    {{ pagerfanta(users) }}
+    <div class="mt-6">
+        {{ pagerfanta(users) }}
+    </div>
 
 {% endblock %}

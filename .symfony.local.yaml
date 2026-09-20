@@ -1,0 +1,3 @@
+# Watch and build CSS files using Tailwind CSS
+tailwind:
+    cmd: ['symfony', 'console', 'tailwind:build', '--watch']

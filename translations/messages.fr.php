@@ -27,6 +27,7 @@ return [
         ],
         'home' => 'Accueil',
         'settings' => 'Paramètres',
+        'toggle' => 'Ouvrir le menu',
     ],
     'misc' => [
         'no' => 'Non',

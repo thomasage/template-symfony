@@ -6,10 +6,12 @@ namespace App\Tests\Form;
 
 use App\Form\UserEditData;
 use App\Form\UserEditType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 #[CoversClass(UserEditType::class)]
+#[AllowMockObjectsWithoutExpectations]
 final class UserEditTypeTest extends TypeTestCase
 {
     public function testShouldSubmitValidData(): void

@@ -6,10 +6,12 @@ namespace App\Tests\Form\Settings;
 
 use App\Form\Settings\TwoFactorsAuthenticationConfirmationData;
 use App\Form\Settings\TwoFactorsAuthenticationConfirmationType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 #[CoversClass(TwoFactorsAuthenticationConfirmationType::class)]
+#[AllowMockObjectsWithoutExpectations]
 final class TwoFactorsAuthenticationConfirmationTypeTest extends TypeTestCase
 {
     public function testShouldSubmitValidData(): void

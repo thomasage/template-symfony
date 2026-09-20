@@ -6,10 +6,12 @@ namespace App\Tests\Form;
 
 use App\Form\UserAddData;
 use App\Form\UserAddType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 #[CoversClass(UserAddType::class)]
+#[AllowMockObjectsWithoutExpectations]
 final class UserAddTypeTest extends TypeTestCase
 {
     public function testShouldSubmitValidData(): void

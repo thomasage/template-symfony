@@ -8,6 +8,8 @@ return [
         'user_updated' => 'Utilisateur modifié.',
     ],
     'page_title' => [
+        'user_add' => 'Ajouter un utilisateur',
+        'user_edit' => 'Modifier un utilisateur',
         'user_index' => 'Liste des utilisateurs',
     ],
 ];

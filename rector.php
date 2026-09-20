@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
-use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
@@ -28,9 +27,6 @@ return RectorConfig::configure()
     )
     ->withSets([
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
-    ])
-    ->withSkip([
-        AddOverrideAttributeToOverriddenMethodsRector::class,
     ])
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
