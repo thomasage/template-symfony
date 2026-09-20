@@ -28,6 +28,7 @@ definitions:
             export COMPOSER_CACHE_DIR="$BITBUCKET_CLONE_DIR/.composer-cache"
             export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-interaction --prefer-dist --optimize-autoloader
+            bin/console tailwind:build
           - composer qa:cs-fix
 
     - step: &rector
