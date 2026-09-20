@@ -35,7 +35,6 @@ build:
           optional: true
     before_script:
         - composer install --no-interaction --prefer-dist --optimize-autoloader
-        - bin/console tailwind:build
 
 cs-fixer:
     extends: .php_base
@@ -67,6 +66,7 @@ phpunit:
         POSTGRES_PASSWORD: test
     before_script:
         - echo 'DATABASE_URL=postgresql://test:test@database:5432/test?serverVersion=18&charset=utf8' >> .env.test
+        - bin/console tailwind:build
     script:
         - composer qa:phpunit
 
