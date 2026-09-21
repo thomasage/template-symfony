@@ -24,4 +24,5 @@ return new Config()
             'import_classes' => true,
         ],
         'ordered_interfaces' => true,
+        'declare_strict_types' => false,
     ]);
